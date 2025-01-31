@@ -1,21 +1,21 @@
 import { createTheme } from "@mui/material";
 
-import { green, grey, indigo } from "@mui/material/colors";
+import { green, purple, deepPurple } from "@mui/material/colors";
 
 let theme = createTheme({
   palette: {
     primary: {
-      main: indigo[500],
-      normal: indigo["A700"],
+      main: "#7600b2",
+      normal: purple["A700"],
     },
     secondary: {
-      main: indigo[50],
+      main: "#9500ae",
     },
     neutral: {
-      light: grey[50],
-      medium: grey[200],
-      normal: grey[700],
-      main: grey[900],
+      light: "",
+      medium: deepPurple[300],
+      normal: purple[900],
+      main: "#7600b2",
     },
     green: {
       main: green[800],

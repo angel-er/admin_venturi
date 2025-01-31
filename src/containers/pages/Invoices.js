@@ -1,10 +1,10 @@
 import { Box, Typography } from "@mui/material";
 
-function StoreContainer(params) {
+function InvoicesContainer() {
   return (
     <Box>
       <Typography sx={styles.pageTitle} variant="h5">
-        PRODUCTOS EN ALMACEN
+        LISTA DE FACTURAS
       </Typography>
       <Box sx={styles.columnContainer}></Box>
     </Box>
@@ -22,4 +22,4 @@ const styles = {
   },
 };
 
-export default StoreContainer;
+export default InvoicesContainer;

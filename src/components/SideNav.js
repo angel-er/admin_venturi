@@ -6,37 +6,45 @@ import ProductionQuantityLimitsOutlinedIcon from "@mui/icons-material/Production
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
 import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
+import { Link, useLocation } from "react-router-dom";
 
 const links = [
   {
     icon: <DashboardOutlinedIcon />,
     label: "Dashboard",
+    url: "/",
   },
   {
     icon: <PeopleAltOutlinedIcon />,
     label: "Clientes",
+    url: "/clients",
   },
   {
     icon: <ProductionQuantityLimitsOutlinedIcon />,
     label: "Productos",
+    url: "/products",
   },
   {
     icon: <StorefrontOutlinedIcon />,
     label: "Almacén",
+    url: "/store",
   },
   {
     icon: <ReceiptLongOutlinedIcon />,
     label: "Facturas",
+    url: "/invoices",
   },
   {
     icon: <MonetizationOnOutlinedIcon />,
     label: "Ventas",
+    url: "/sales",
   },
 ];
 
 function SideNav() {
   const theme = useTheme();
   const { collapsed } = useProSidebar();
+  const location = useLocation();
   return (
     <Sidebar
       style={{
@@ -44,7 +52,14 @@ function SideNav() {
         top: "auto",
       }}
       breakPoint="md"
-      backgroundColor={theme.palette.neutral.light}
+      backgroundColor={theme.palette.neutral.medium}
+      menuItemStyle={{
+        button: ({ active }) => {
+          return {
+            backgroundColor: active ? theme.palette.neutral.main : undefined,
+          };
+        },
+      }}
     >
       <Box sx={styles.avatarContainer}>
         <Avatar sx={styles.avatar} alt="Channel Name" src="" />
@@ -58,7 +73,11 @@ function SideNav() {
       <Menu>
         {links.map((link, key) => (
           <div key={key}>
-            <MenuItem active icon={link.icon}>
+            <MenuItem
+              active={location.pathname === link.url}
+              component={<Link to={link.url} />}
+              icon={link.icon}
+            >
               <Typography variant="body2">{link.label}</Typography>
             </MenuItem>
           </div>
