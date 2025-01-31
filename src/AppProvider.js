@@ -10,6 +10,7 @@ import SideNav from "#components/SideNav.js";
 import NavHeader from "#components/AppHeader.js";
 import { ProSidebarProvider } from "react-pro-sidebar";
 import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "#router/AppRouter.js";
 
 function AppProvider() {
   return (
@@ -21,7 +22,9 @@ function AppProvider() {
           <Box sx={styles.container}>
             <BrowserRouter>
               <SideNav />
-              <Box component={"main"} sx={styles.mainSection}></Box>
+              <Box component={"main"} sx={styles.mainSection}>
+                <AppRoutes />
+              </Box>
             </BrowserRouter>
           </Box>
         </Suspense>
@@ -38,7 +41,7 @@ const styles = {
     height: "calc(100% - 64px)",
   },
   mainSection: {
-    p: 1,
+    p: 4,
     width: "100%",
     height: "100%",
   },
