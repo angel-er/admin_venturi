@@ -1,16 +1,19 @@
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Box, Typography } from "@mui/material";
 import AddTaskIcon from "@mui/icons-material/AddTask";
+
 import CustomizedDialogs from "./Form.js";
-import { useEffect, useState } from "react";
 import ListStore from "./Table.js";
-import { colStore, rowStore } from "./data-random.js";
 
 function StoreContainer(params) {
   const [columns, setColumns] = useState([]);
-  const [store, setStore] = useState([]);
+  const [rows, setRows] = useState([]);
   const [open, setOpen] = useState(false);
   const [client, setClient] = useState({});
   const [titleModal, setTitleModal] = useState("");
+
+  const { stores, header } = useSelector((state) => state.Store);
 
   const handleClick = (id, action) => {
     setTitleModal("AGREGAR PRODUCTO AL ALMACEN");
@@ -37,11 +40,11 @@ function StoreContainer(params) {
     //   .then((json) => {
     //     console.log(json);
 
-    setColumns(colStore);
-    console.log("rowStore: ", rowStore);
-    setStore(rowStore);
+    setColumns(header);
+    console.log("rowStore: ", stores);
+    setRows(stores);
     // });
-  }, []);
+  }, [stores, header]);
 
   return (
     <Box>
@@ -50,7 +53,7 @@ function StoreContainer(params) {
       </Typography>
       <Box sx={styles.columnContainer}>
         <ListStore
-          rows={store}
+          rows={rows}
           columns={columns}
           valueButton="Agregar compra"
           iconButton={<AddTaskIcon />}
