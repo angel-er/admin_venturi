@@ -50,11 +50,13 @@ function SideNav() {
       style={{
         height: "100%",
         top: "auto",
+        // color: "white",
       }}
       breakPoint="md"
       backgroundColor={theme.palette.neutral.medium}
       menuItemStyle={{
         button: ({ active }) => {
+          console.log(active);
           return {
             backgroundColor: active ? theme.palette.neutral.main : undefined,
           };
@@ -98,6 +100,11 @@ const styles = {
   avatar: {
     width: "40%",
     height: "auto",
+  },
+  link: {
+    "&:hover": {
+      color: "black",
+    },
   },
   yourChannel: {
     mt: 1,

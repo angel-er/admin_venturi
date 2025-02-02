@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 // import { Dashboard } from "@mui/icons-material";
 import DashboardContainer from "#containers/Dashboard.js";
-import ClientsContainer from "#containers/pages/Clients.js";
-import ProductsContainer from "#containers/pages/Products.js";
+import ClientsContainer from "#containers/pages/Client/Clients.js";
+import ProductsContainer from "#containers/pages/Products/Products.js";
 import SalesContainer from "#containers/pages/Sales.js";
 import InvoicesContainer from "#containers/pages/Invoices.js";
-import StoreContainer from "#containers/pages/Store.js";
+import StoreContainer from "#containers/pages/Store/Store.js";
 
 function AppRoutes() {
   return (

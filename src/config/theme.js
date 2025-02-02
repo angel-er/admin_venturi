@@ -6,13 +6,13 @@ let theme = createTheme({
   palette: {
     primary: {
       main: "#7600b2",
-      normal: purple["A700"],
+      normal: deepPurple[50],
     },
     secondary: {
       main: "#9500ae",
     },
     neutral: {
-      light: "",
+      light: deepPurple[10],
       medium: deepPurple[300],
       normal: purple[900],
       main: "#7600b2",
