@@ -70,8 +70,12 @@ function ListProducts({
       </Box>
       <Box sx={styles.columnContainer}>
         <Paper sx={{ width: "100%" }}>
-          <TableContainer>
-            <Table sx={{ minWidth: 650 }} aria-label="customized table">
+          <TableContainer sx={{ maxHeight: window.innerHeight - 300 }}>
+            <Table
+              sx={{ minWidth: 650 }}
+              stickyHeader
+              aria-label="customized table"
+            >
               <TableHead>
                 <TableRow>
                   {columns.map((col, indx) => (
@@ -117,6 +121,7 @@ function ListProducts({
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             <IconButton
+                              style={styles.buttonIcon}
                               onClick={() => {
                                 handleClickEdit(row);
                               }}
@@ -124,6 +129,7 @@ function ListProducts({
                               <EditIcon style={styles.icon} />
                             </IconButton>
                             <IconButton
+                              style={styles.buttonIcon}
                               onClick={() => {
                                 handleClickDelete(row.id);
                               }}
@@ -163,6 +169,10 @@ const styles = {
     paddingBottom: 20,
   },
   button: { backgroundColor: theme.palette.neutral.medium },
+  buttonIcon: {
+    // paddingTop: 0,
+    // paddingBottom: 0,
+  },
   icon: { color: theme.palette.neutral.medium },
   columnContainer: {
     // columns: "280px 3",

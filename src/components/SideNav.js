@@ -48,7 +48,7 @@ function SideNav() {
   return (
     <Sidebar
       style={{
-        height: "100%",
+        // height: "100%",
         top: "auto",
         // color: "white",
       }}

@@ -49,7 +49,7 @@ function ClientsContainer(params) {
   }, []);
 
   return (
-    <Box>
+    <Box style={styles.container}>
       <Typography sx={styles.pageTitle} variant="h5">
         LISTA DE CLIENTES
       </Typography>
@@ -84,9 +84,9 @@ const styles = {
     justifyContent: "flex-end",
     paddingBottom: 20,
   },
-  columnContainer: {
+  container: {
     // columns: "280px 3",
-    // maxWidth: 1400,
+    height: "100%",
   },
 };
 

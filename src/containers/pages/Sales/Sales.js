@@ -4,7 +4,7 @@ function SalesContainer(params) {
   return (
     <Box>
       <Typography sx={styles.pageTitle} variant="h5">
-        PLANILLA DE VENTAS DIARIAS
+        CREAR VENTA
       </Typography>
       <Box sx={styles.columnContainer}></Box>
     </Box>
