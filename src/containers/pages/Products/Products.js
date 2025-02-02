@@ -1,16 +1,19 @@
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Typography, Box } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { useEffect, useState } from "react";
-import { colProducts, rowProducts } from "#redux/dataClients.js";
+
 import CustomizedDialogs from "./Form.js";
 import ListProducts from "./Table";
 
 function ProductsContainer(params) {
   const [columns, setColumns] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [rows, setRows] = useState([]);
   const [open, setOpen] = useState(false);
   const [client, setClient] = useState({});
   const [titleModal, setTitleModal] = useState("");
+
+  const { products, header } = useSelector((state) => state.Product);
 
   const handleClick = (id, action) => {
     setTitleModal("AGREGAR NUEVO PRODUCTO");
@@ -38,7 +41,7 @@ function ProductsContainer(params) {
     //     console.log(json);
 
     setColumns(
-      colProducts.concat([
+      header.concat([
         {
           field: "actions",
           type: "actions",
@@ -47,10 +50,9 @@ function ProductsContainer(params) {
         },
       ])
     );
-    console.log("rowProducts: ", rowProducts);
-    setProducts(rowProducts);
+    setRows(products);
     // });
-  }, []);
+  }, [header, products]);
 
   console.log(products);
   return (
@@ -60,7 +62,7 @@ function ProductsContainer(params) {
       </Typography>
       <Box>
         <ListProducts
-          rows={rowProducts}
+          rows={rows}
           columns={columns}
           valueButton="Agregar producto"
           iconButton={<AddIcon />}

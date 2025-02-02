@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Box, Typography } from "@mui/material";
-// import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+// import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import CustomizedDialogs from "./Form.js";
-import { cols, dataRows } from "#redux/dataClients.js";
 import Table from "#containers/pages/Client/Table.js";
 
 function ClientsContainer(params) {
@@ -12,6 +12,8 @@ function ClientsContainer(params) {
   const [rows, setRows] = useState([]);
   const [client, setClient] = useState({});
   const [titleModal, setTitleModal] = useState("");
+
+  const { clients, header } = useSelector((state) => state.Client);
 
   const handleClick = (id, action) => {
     setTitleModal("AGREGAR NUEVO CLIENTE");
@@ -34,7 +36,7 @@ function ClientsContainer(params) {
 
   useEffect(() => {
     const loadData = async () => {
-      const columns = await cols.concat([
+      const columns = await header.concat([
         {
           field: "actions",
           type: "actions",
@@ -45,8 +47,8 @@ function ClientsContainer(params) {
       setColumns(columns);
     };
     loadData();
-    setRows(dataRows);
-  }, []);
+    setRows(clients);
+  }, [clients, header]);
 
   return (
     <Box style={styles.container}>
