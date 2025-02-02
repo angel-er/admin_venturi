@@ -215,4 +215,28 @@ export const rowProducts = [
     description: "Dos porciones de helados, con toping, cobertura y galleta",
     price: "18",
   },
+  {
+    id: 7,
+    name: "Ensalada de frutas",
+    description: "frutas manzana, papaya, banana, yogurt",
+    price: "12",
+  },
+  {
+    id: 8,
+    name: "Frappe",
+    description: "hielo triturado, leche, oreo o café",
+    price: "5",
+  },
+  {
+    id: 9,
+    name: "Capuccino",
+    description: "Dos porciones de helados, con toping, cobertura y galleta",
+    price: "18",
+  },
+  {
+    id: 10,
+    name: "brownie",
+    description: "Dos porciones de helados, con toping, cobertura y galleta",
+    price: "18",
+  },
 ];

@@ -54,8 +54,10 @@ function ClientsContainer({
     setPage(0);
   };
 
+  console.log(window.innerHeight);
+
   return (
-    <Box>
+    <Box style={{}}>
       <Box style={styles.buttonContainer}>
         <Button
           style={styles.button}
@@ -66,10 +68,14 @@ function ClientsContainer({
           {valueButton}
         </Button>
       </Box>
-      <Box sx={styles.columnContainer}>
-        <Paper sx={{ width: "100%" }}>
-          <TableContainer>
-            <Table sx={{ minWidth: 650 }} aria-label="customized table">
+      <Box>
+        <Paper style={{}}>
+          <TableContainer sx={{ maxHeight: window.innerHeight - 300 }}>
+            <Table
+              sx={{ minWidth: 650 }}
+              stickyHeader
+              aria-label="customized table"
+            >
               <TableHead>
                 <TableRow>
                   {columns.map((col, indx) => (
@@ -96,6 +102,8 @@ function ClientsContainer({
                       )
                       .map((row, indx) => (
                         <StyledTableRow
+                          tabIndex={-1}
+                          hover
                           key={`${row.id}-${indx}`}
                           sx={{
                             "&:last-child td, &:last-child th": { border: 0 },
@@ -169,8 +177,10 @@ const styles = {
   button: { backgroundColor: theme.palette.neutral.medium },
   icon: { color: theme.palette.neutral.medium },
   columnContainer: {
+    height: window.innerHeight,
     // columns: "280px 3",
     // maxWidth: 1400,
+    // height: "100%",
   },
 };
 
