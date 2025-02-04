@@ -1,6 +1,6 @@
 import { createTheme } from "@mui/material";
 
-import { green, purple, deepPurple } from "@mui/material/colors";
+import { green, purple, deepPurple, grey } from "@mui/material/colors";
 
 let theme = createTheme({
   palette: {
@@ -14,11 +14,14 @@ let theme = createTheme({
     neutral: {
       light: deepPurple[10],
       medium: deepPurple[300],
-      normal: purple[900],
+      normal: purple[100],
       main: "#7600b2",
     },
     green: {
       main: green[800],
+    },
+    grey: {
+      light: grey[300],
     },
   },
 });
