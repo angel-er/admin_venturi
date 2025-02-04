@@ -1,9 +1,6 @@
 import { useState } from "react";
-import { Box, Button, IconButton, TablePagination } from "@mui/material";
-// import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { Box, Button, TablePagination } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -33,15 +30,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function ListStore({
-  valueButton,
-  iconButton,
-  columns,
-  rows,
-  handleClick,
-  handleClickEdit,
-  handleClickDelete,
-}) {
+function ListStore({ valueButton, iconButton, columns, rows, handleClick }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
