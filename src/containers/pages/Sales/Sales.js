@@ -8,17 +8,20 @@ import CardCustomer from "#components/Card.js";
 import theme from "#config/theme.js";
 import FormAddPurchase from "./FormAddPurchase";
 import PaymentForm from "./PaymentForm";
+import PrintButton from "#utils/ButtonPrintPDF.js";
 
 function SalesContainer(params) {
   const { products } = useSelector((state) => state.Product);
   const { clients } = useSelector((state) => state.Client);
   const { payment_type } = useSelector((state) => state.Sale);
 
+  const [print, setPrint] = useState(false);
   const [openAdForm, setOpenAddForm] = useState(false);
   const [openPaymentForm, setOpenPaymentForm] = useState(false);
   const [productSelected, setProductSelected] = useState({});
   const [cartList, setCartList] = useState([]);
   const [totalSum, setTotalSum] = useState(0);
+  const [ticketDetails, setTicketDetails] = useState({});
 
   const handleToggle = (id) => {
     setOpenAddForm(!openAdForm);
@@ -37,7 +40,7 @@ function SalesContainer(params) {
   };
 
   const addToCartList = (product) => {
-    const sumPrice = totalSum + product.quantity * product.price;
+    const sumPrice = +totalSum + +product.quantity * product.price;
     setCartList(cartList.concat([product]));
     setTotalSum(sumPrice);
     setOpenAddForm(!openAdForm);
@@ -46,7 +49,7 @@ function SalesContainer(params) {
   const handleRemoveList = async (id) => {
     const findNumber = await cartList.filter((p) => p?.id === id)[0];
     const updatedList = await cartList.filter((p) => p.id !== id);
-    const sumTotalPrice = totalSum - findNumber?.price * findNumber?.quantity;
+    const sumTotalPrice = +totalSum - +findNumber?.price * findNumber?.quantity;
     setCartList(updatedList);
     setTotalSum(sumTotalPrice);
   };
@@ -55,11 +58,25 @@ function SalesContainer(params) {
     setOpenPaymentForm(!openPaymentForm);
   };
 
+  const onSubmit = (formData) => {
+    setPrint(true);
+    setTicketDetails(formData);
+    console.log(formData);
+  };
+
+  const clickPrint = () => {
+    setCartList([]);
+    setTotalSum(0);
+  };
+
   return (
     <Box>
-      <Typography sx={styles.pageTitle} variant="h5">
-        CREAR VENTA
-      </Typography>
+      <Box style={styles.header}>
+        <Typography sx={styles.pageTitle} variant="h5">
+          CREAR VENTA
+        </Typography>{" "}
+        {print && <PrintButton clickPrint={clickPrint} data={ticketDetails} />}
+      </Box>
       <Divider sx={styles.divider} />
       <Box sx={styles.columnContainer}>
         <CardCustomer
@@ -104,6 +121,7 @@ function SalesContainer(params) {
         title="Generar pago"
         clients={clients}
         paymentType={payment_type}
+        onSubmit={onSubmit}
       />
     </Box>
   );
@@ -111,6 +129,7 @@ function SalesContainer(params) {
 
 /** @type {import("@mui/material").SxProps} */
 const styles = {
+  header: { display: "flex", justifyContent: "space-between" },
   pageTitle: {
     mb: 3,
   },

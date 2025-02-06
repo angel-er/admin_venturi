@@ -78,7 +78,7 @@ export default function Form({
             Cancelar
           </Button>
           <Button type="submit" autoFocus>
-            {title !== "ELIMINAR" ? "Guardar" : "Eliminar"}
+            {`${title !== "ELIMINAR" ? "Guardar" : title}`}
           </Button>
         </DialogActions>
       </form>

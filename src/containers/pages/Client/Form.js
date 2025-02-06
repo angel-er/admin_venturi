@@ -91,7 +91,7 @@ export default function Modal({
             Cancelar
           </Button>
           <Button type="submit" autoFocus>
-            Guardar
+            {`${title !== "ELIMINAR" ? "Guardar" : title}`}
           </Button>
         </DialogActions>
       </form>

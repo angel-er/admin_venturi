@@ -38,11 +38,11 @@ function NavHeader() {
 /** @type {import("@mui/material").SxProps} */
 const styles = {
   appBar: {
-    bgcolor: "neutral.medium",
+    bgcolor: "white",
   },
   appLogo: {
     borderRadius: 2,
-    width: 80,
+    width: 90,
     ml: 2,
     cursor: "pointer",
   },
