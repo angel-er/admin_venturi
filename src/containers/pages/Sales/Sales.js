@@ -133,7 +133,7 @@ const styles = {
   pageTitle: {
     mb: 3,
   },
-  divider: { mb: 3, borderColor: theme.palette.neutral.medium },
+  divider: { mb: 3, borderColor: theme.palette.grey.main },
   columnContainer: {
     columns: "280px 2",
     gap: 8,
