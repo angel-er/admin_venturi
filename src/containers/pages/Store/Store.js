@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 
 import CustomizedDialogs from "./Form.js";
 import ListStore from "./Table.js";
+import theme from "#config/theme.js";
 
 function StoreContainer(params) {
   const [columns, setColumns] = useState([]);
@@ -51,6 +52,7 @@ function StoreContainer(params) {
       <Typography sx={styles.pageTitle} variant="h5">
         PRODUCTOS EN ALMACEN
       </Typography>
+      <Divider style={styles.divider} />
       <Box sx={styles.columnContainer}>
         <ListStore
           rows={rows}
@@ -76,6 +78,7 @@ function StoreContainer(params) {
 
 /** @type {import("@mui/material").SxProps} */
 const styles = {
+  divider: { mb: 3, borderColor: theme.palette.grey.main, marginBottom: 10 },
   pageTitle: {
     mb: 5,
   },

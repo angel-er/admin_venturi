@@ -77,7 +77,7 @@ export default function Modal({
           <Button autoFocus onClick={cancelModal}>
             Cancelar
           </Button>
-          <Button type="submit" autoFocus>
+          <Button type="submit" autoFocus variant="outlined">
             {`${title !== "ELIMINAR" ? "Guardar" : title}`}
           </Button>
         </DialogActions>

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 // import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import CustomizedDialogs from "./Form.js";
 import Table from "#containers/pages/Client/Table.js";
+import theme from "#config/theme.js";
 
 function ClientsContainer(params) {
   const [open, setOpen] = useState(false);
@@ -55,6 +56,7 @@ function ClientsContainer(params) {
       <Typography sx={styles.pageTitle} variant="h5">
         LISTA DE CLIENTES
       </Typography>
+      <Divider style={styles.divider} />
       <Table
         valueButton="Agregar Cliente"
         iconButton={<PersonAddIcon />}
@@ -78,6 +80,7 @@ function ClientsContainer(params) {
 
 /** @type {import("@mui/material").SxProps} */
 const styles = {
+  divider: { mb: 3, borderColor: theme.palette.grey.main, marginBottom: 10 },
   pageTitle: {
     mb: 5,
   },

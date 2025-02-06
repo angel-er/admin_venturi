@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Divider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 import CustomizedDialogs from "./Form.js";
 import ListProducts from "./Table";
+import theme from "#config/theme.js";
 
 function ProductsContainer(params) {
   const [columns, setColumns] = useState([]);
@@ -60,6 +61,7 @@ function ProductsContainer(params) {
       <Typography sx={styles.pageTitle} variant="h5">
         PRODUCTOS EN VENTA
       </Typography>
+      <Divider style={styles.divider} />
       <Box>
         <ListProducts
           rows={rows}
@@ -85,6 +87,7 @@ function ProductsContainer(params) {
 
 /** @type {import("@mui/material").SxProps} */
 const styles = {
+  divider: { mb: 3, borderColor: theme.palette.grey.main, marginBottom: 10 },
   pageTitle: {
     mb: 5,
   },
