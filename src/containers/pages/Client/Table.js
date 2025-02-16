@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Box, Button, IconButton, TablePagination } from "@mui/material";
-// import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -54,7 +53,7 @@ function ClientsContainer({
     setPage(0);
   };
 
-  console.log(window.innerHeight);
+  // console.log(window.innerHeight);
 
   return (
     <Box style={{}}>
@@ -83,7 +82,7 @@ function ClientsContainer({
                       key={`${col.field}-${indx}`}
                       align={
                         `${col.field}` === "name" ||
-                        `${col.field}` === "lastName"
+                        `${col.field}` === "last_name"
                           ? "left"
                           : "center"
                       }
@@ -116,7 +115,7 @@ function ClientsContainer({
                             {row.name}
                           </StyledTableCell>
                           <StyledTableCell align="left">
-                            {row.lastName}
+                            {row.last_name}
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             {row.telephone}
@@ -137,7 +136,7 @@ function ClientsContainer({
                             </IconButton>
                             <IconButton
                               onClick={() => {
-                                handleClickDelete(row.id);
+                                handleClickDelete(row);
                               }}
                             >
                               <DeleteForeverIcon style={{ color: "red" }} />

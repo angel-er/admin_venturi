@@ -22,10 +22,9 @@ from django.conf.urls.static import static # manual - importar static
 
 
 urlpatterns = [
+    path('api/client/', include('apps.client.urls')),
+
     path('admin/', admin.site.urls),
-    #path('', include('venturi.urls')), # manual - agregar esta ruta
-    # path('', include('sales.urls')), # manual - agregar esta ruta
-    # path('clients/', include('clients.urls')), # manual - agregar esta ruta
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns+= [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))] # configurar react

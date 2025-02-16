@@ -1,23 +1,34 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Box, Divider, Typography } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-// import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { message } from "antd";
 import CustomizedDialogs from "./Form.js";
 import Table from "#containers/pages/Client/Table.js";
 import theme from "#config/theme.js";
+import {
+  createClient,
+  getListClients,
+  updateClient,
+  deleteClient,
+} from "#services/client.js";
+import { getAllClients } from "#redux/slices/client/clientSlice.js";
 
 function ClientsContainer(params) {
+  let refMessage = useRef("");
+  const [messageApi, contextHolder] = message.useMessage();
+
   const [open, setOpen] = useState(false);
   const [columns, setColumns] = useState([]);
-  const [rows, setRows] = useState([]);
   const [client, setClient] = useState({});
   const [titleModal, setTitleModal] = useState("");
 
-  const { clients, header } = useSelector((state) => state.Client);
+  const { clients, header, status } = useSelector((state) => state.Client);
+  const dispatch = useDispatch();
 
-  const handleClick = (id, action) => {
+  const handleClick = () => {
     setTitleModal("AGREGAR NUEVO CLIENTE");
+    setClient({});
     setOpen(!open);
   };
   const handleClickEdit = (row) => {
@@ -26,17 +37,28 @@ function ClientsContainer(params) {
     setOpen(!open);
   };
 
-  const handleSaveData = (data) => {
-    console.log(data);
-  };
-  const handleClickDelete = (id) => {
-    console.log("Delete Client: ", id);
+  const handleClickDelete = (row) => {
     setTitleModal("ELIMINAR");
+    setClient(row);
     setOpen(!open);
   };
 
+  const handleSaveData = (data) => {
+    if (!titleModal.search("AGREGAR")) {
+      dispatch(createClient(data));
+    }
+
+    if (!titleModal.search("ACTUALIZAR")) {
+      dispatch(updateClient(data));
+    }
+
+    if (!titleModal.search("ELIMINAR")) {
+      dispatch(deleteClient(data.id));
+    }
+  };
+
   useEffect(() => {
-    const loadData = async () => {
+    const loadColumns = async () => {
       const columns = await header.concat([
         {
           field: "actions",
@@ -47,12 +69,54 @@ function ClientsContainer(params) {
       ]);
       setColumns(columns);
     };
-    loadData();
-    setRows(clients);
-  }, [clients, header]);
+    loadColumns();
+    const data = getListClients();
+    data.then((da) => dispatch(getAllClients(da)));
+
+    if (status === "registered") {
+      refMessage.current = `registrado`;
+      messageApi.open({
+        type: "success",
+        content: `Los datos fueron ${refMessage.current}`,
+        duration: 5,
+      });
+      setClient({});
+      setOpen(false);
+    }
+
+    if (status === "error") {
+      refMessage.current = `error`;
+      messageApi.open({
+        type: "error",
+        content: `Hubo un ${refMessage.current}, el teléfono o mail ya estan registrados`,
+      });
+    }
+
+    if (status === "updated") {
+      refMessage.current = `actualizados`;
+      messageApi.open({
+        type: "success",
+        content: `Los datos fueron ${refMessage.current}.`,
+        duration: 5,
+      });
+      setClient({});
+      setOpen(false);
+    }
+    if (status === "deleted") {
+      refMessage.current = `eliminados`;
+      messageApi.open({
+        type: "success",
+        content: `Los datos fueron ${refMessage.current}.`,
+        duration: 5,
+      });
+      setClient({});
+      setOpen(false);
+    }
+  }, [dispatch, header, status, messageApi]);
 
   return (
     <Box style={styles.container}>
+      {contextHolder}
       <Typography sx={styles.pageTitle} variant="h5">
         LISTA DE CLIENTES
       </Typography>
@@ -64,7 +128,7 @@ function ClientsContainer(params) {
         handleClickEdit={handleClickEdit}
         handleClickDelete={handleClickDelete}
         columns={columns}
-        rows={rows}
+        rows={clients}
       />
       <CustomizedDialogs
         open={open}

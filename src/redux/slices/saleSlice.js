@@ -8,7 +8,7 @@ const initState = {
   ],
 };
 
-const saleSlicer = createSlice({
+const saleSlice = createSlice({
   name: "Sale",
   initialState: initState,
   reducers: {
@@ -28,6 +28,6 @@ const saleSlicer = createSlice({
   },
 });
 
-export const { getAllSale, getSale, saveSale } = saleSlicer.actions;
+export const { getAllSale, getSale, saveSale } = saleSlice.actions;
 
-export default saleSlicer.reducer;
+export default saleSlice.reducer;
