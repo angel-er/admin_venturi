@@ -45,16 +45,16 @@ DJANGO_APPS = [ # manual - cambiar a DJANGO_APPS
     'django.contrib.humanize',
 ]
 
-PROJECT_APPS = ['venturi',] # manual - realizar esta configuracion
+PROJECT_APPS = ['apps.client',] # manual - realizar esta configuracion
 
 # manual - realizar esta configuracion
 THIRD_PARTY_APPS = [
+    'environ',
     'corsheaders',
     'rest_framework',
-    'environ',
 ]
 
-INSTALLED_APPS =  DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS # manual - realizar esta configuracion
+INSTALLED_APPS =  DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS # manual - realizar esta configuracion
 
 ########### MANUAL - Configuracion de CKeditor ###########
 CKEDITOR_CONFIGS = {

@@ -1,7 +1,7 @@
 export const rows = [
   {
     id: 1,
-    lastName: "Snow",
+    last_name: "Snow",
     name: "Jon",
     telephone: 75864925,
     email: "prueba@gmail.com",
@@ -9,7 +9,7 @@ export const rows = [
   },
   {
     id: 2,
-    lastName: "Lannister",
+    last_name: "Lannister",
     name: "Cersei",
     telephone: 75864925,
     email: "prueba@gmail.com",
@@ -17,7 +17,7 @@ export const rows = [
   },
   {
     id: 3,
-    lastName: "Lannister",
+    last_name: "Lannister",
     name: "Jaime",
     telephone: 75864925,
     email: "prueba@gmail.com",
@@ -25,7 +25,7 @@ export const rows = [
   },
   {
     id: 4,
-    lastName: "Stark",
+    last_name: "Stark",
     name: "Arya",
     telephone: 75864925,
     email: "prueba@gmail.com",
@@ -33,7 +33,7 @@ export const rows = [
   },
   {
     id: 5,
-    lastName: "Targaryen",
+    last_name: "Targaryen",
     name: "Daenerys",
     telephone: 75864925,
     email: "prueba@gmail.com",
@@ -41,7 +41,7 @@ export const rows = [
   },
   {
     id: 6,
-    lastName: "Melisandre",
+    last_name: "Melisandre",
     name: null,
     telephone: 75864925,
     email: "prueba@gmail.com",
@@ -49,7 +49,7 @@ export const rows = [
   },
   {
     id: 7,
-    lastName: "Clifford",
+    last_name: "Clifford",
     name: "Ferrara",
     telephone: 75864925,
     email: "prueba@gmail.com",
@@ -57,7 +57,7 @@ export const rows = [
   },
   {
     id: 8,
-    lastName: "Frances",
+    last_name: "Frances",
     name: "Rossini",
     telephone: 75864925,
     email: "prueba@gmail.com",
@@ -65,7 +65,7 @@ export const rows = [
   },
   {
     id: 9,
-    lastName: "Roxie",
+    last_name: "Roxie",
     name: "Harvey",
     telephone: 75864925,
     email: "prueba@gmail.com",
@@ -73,7 +73,7 @@ export const rows = [
   },
   {
     id: 10,
-    lastName: "Clifford",
+    last_name: "Clifford",
     name: "Ferrara",
     telephone: 75864925,
     email: "prueba@gmail.com",
@@ -81,7 +81,7 @@ export const rows = [
   },
   {
     id: 11,
-    lastName: "Frances",
+    last_name: "Frances",
     name: "Rossini",
     telephone: 75864925,
     email: "prueba@gmail.com",
@@ -89,7 +89,7 @@ export const rows = [
   },
   {
     id: 12,
-    lastName: "Roxie",
+    last_name: "Roxie",
     name: "Harvey",
     telephone: 75864925,
     email: "prueba@gmail.com",
@@ -106,7 +106,7 @@ export const columns = [
     // editable: true,
   },
   {
-    field: "lastName",
+    field: "last_name",
     headerName: "Apellido",
     width: 150,
     // editable: true,
@@ -143,6 +143,6 @@ export const columns = [
   //   description: "This column has a value getter and is not sortable.",
   //   sortable: false,
   //   width: 160,
-  //   valueGetter: (value, row) => `${row.firstName || ""} ${row.lastName || ""}`,
+  //   valueGetter: (value, row) => `${row.firstName || ""} ${row.last_name || ""}`,
   // },
 ];

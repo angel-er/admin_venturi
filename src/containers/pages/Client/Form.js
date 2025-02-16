@@ -19,19 +19,19 @@ export default function Modal({
     register,
     handleSubmit,
     setValue,
-    reset,
     formState: { errors },
   } = useForm({ defaultValues: {} });
 
   useEffect(() => {
     setValue("name", data.name);
-    setValue("lastName", data.lastName);
+    setValue("lastName", data.last_name);
     setValue("telephone", data.telephone);
     setValue("email", data.email);
+    setValue("id", data.id);
   }, [data, setValue]);
 
   const cancelModal = () => {
-    reset();
+    // reset();
     handleClick();
   };
 

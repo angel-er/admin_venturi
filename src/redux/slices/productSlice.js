@@ -6,7 +6,7 @@ const initState = {
   header: columns,
 };
 
-const productSlicer = createSlice({
+const productSlice = createSlice({
   name: "Product",
   initialState: initState,
   reducers: {
@@ -38,6 +38,6 @@ export const {
   saveProduct,
   updateProduct,
   deleteProduct,
-} = productSlicer.actions;
+} = productSlice.actions;
 
-export default productSlicer.reducer;
+export default productSlice.reducer;
