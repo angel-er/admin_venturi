@@ -6,13 +6,13 @@ import { message } from "antd";
 import CustomizedDialogs from "./Form.js";
 import Table from "#containers/pages/Client/Table.js";
 import theme from "#config/theme.js";
+import { getAllClients } from "#redux/slices/clientSlice.js";
 import {
   createClient,
   getListClients,
   updateClient,
   deleteClient,
 } from "#services/client.js";
-import { getAllClients } from "#redux/slices/client/clientSlice.js";
 
 function ClientsContainer(params) {
   let refMessage = useRef("");

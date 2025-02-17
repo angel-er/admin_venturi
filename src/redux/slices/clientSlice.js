@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { columns } from "../dataRandom/data-clients";
+import { columns } from "./dataRandom/data-clients";
 import { createClient, updateClient, deleteClient } from "#services/client.js";
-
-// import config, { getCurrentTheme } from "./config";
 
 const initState = {
   clients: [],
