@@ -37,6 +37,12 @@ export const columns = [
     align: "center",
     editable: false,
   },
+  {
+    field: "actions",
+    type: "actions",
+    headerName: "Acciones",
+    cellClassName: "actions",
+  },
 
   // {
   //   field: "fullName",

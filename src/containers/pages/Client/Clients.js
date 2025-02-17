@@ -19,7 +19,6 @@ function ClientsContainer(params) {
   const [messageApi, contextHolder] = message.useMessage();
 
   const [open, setOpen] = useState(false);
-  const [columns, setColumns] = useState([]);
   const [client, setClient] = useState({});
   const [titleModal, setTitleModal] = useState("");
 
@@ -58,18 +57,6 @@ function ClientsContainer(params) {
   };
 
   useEffect(() => {
-    const loadColumns = async () => {
-      const columns = await header.concat([
-        {
-          field: "actions",
-          type: "actions",
-          headerName: "Acciones",
-          cellClassName: "actions",
-        },
-      ]);
-      setColumns(columns);
-    };
-    loadColumns();
     const data = getListClients();
     data.then((da) => dispatch(getAllClients(da)));
 
@@ -112,7 +99,7 @@ function ClientsContainer(params) {
       setClient({});
       setOpen(false);
     }
-  }, [dispatch, header, status, messageApi]);
+  }, [dispatch, status, messageApi]);
 
   return (
     <Box style={styles.container}>
@@ -127,7 +114,7 @@ function ClientsContainer(params) {
         handleClick={handleClick}
         handleClickEdit={handleClickEdit}
         handleClickDelete={handleClickDelete}
-        columns={columns}
+        columns={header}
         rows={clients}
       />
       <CustomizedDialogs
