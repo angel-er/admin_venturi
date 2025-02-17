@@ -24,9 +24,10 @@ export default function Modal({
   } = useForm({ defaultValues: {} });
 
   useEffect(() => {
-    setValue("name", data.name);
-    setValue("price", data.price);
+    setValue("name", data.name_product);
+    setValue("price", data.price_product);
     setValue("description", data.description);
+    setValue("id", data.id);
   }, [data, setValue]);
 
   const cancelModal = () => {

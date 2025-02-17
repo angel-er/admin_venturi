@@ -59,7 +59,6 @@ export const updateClient = createAsyncThunk(
         return { ...resp.data };
       }
     } catch (error) {
-      console.log(error);
       return { status: 404 };
     }
   }

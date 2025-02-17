@@ -45,7 +45,7 @@ DJANGO_APPS = [ # manual - cambiar a DJANGO_APPS
     'django.contrib.humanize',
 ]
 
-PROJECT_APPS = ['apps.client',] # manual - realizar esta configuracion
+PROJECT_APPS = ['apps.client', 'apps.product',] # manual - realizar esta configuracion
 
 # manual - realizar esta configuracion
 THIRD_PARTY_APPS = [
@@ -105,7 +105,7 @@ WSGI_APPLICATION = 'crud_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'venturi.db',
     }
 }
 

@@ -10,6 +10,8 @@ class Client(models.Model):
     last_name = models.CharField(max_length=255, unique=False)
     telephone = models.PositiveIntegerField(unique=True, null=True, blank=True)
     email = models.EmailField(max_length=255, unique=True, null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
 
     def __str__(self):
