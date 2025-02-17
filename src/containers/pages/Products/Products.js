@@ -1,71 +1,120 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Typography, Box, Divider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 import CustomizedDialogs from "./Form.js";
 import ListProducts from "./Table";
 import theme from "#config/theme.js";
+import {
+  createProduct,
+  deleteProduct,
+  getListProducts,
+  updateProduct,
+} from "#services/product.js";
+import { getAllProducts } from "#redux/slices/productSlice.js";
+import { message } from "antd";
 
 function ProductsContainer(params) {
-  const [columns, setColumns] = useState([]);
-  const [rows, setRows] = useState([]);
+  const dispatch = useDispatch();
+  let refMessage = useRef("");
+  const [messageApi, contextHolder] = message.useMessage();
+
   const [open, setOpen] = useState(false);
-  const [client, setClient] = useState({});
+  const [product, setProduct] = useState({});
   const [titleModal, setTitleModal] = useState("");
 
-  const { products, header } = useSelector((state) => state.Product);
+  const { products, header, status, error } = useSelector(
+    (state) => state.Product
+  );
 
   const handleClick = (id, action) => {
     setTitleModal("AGREGAR NUEVO PRODUCTO");
+    setProduct({});
     setOpen(!open);
   };
   const handleClickEdit = (row) => {
     setTitleModal("ACTUALIZAR/CAMBIAR DATOS");
-    setClient(row);
+    setProduct(row);
+    setOpen(!open);
+  };
+
+  const handleClickDelete = (row) => {
+    setTitleModal("ELIMINAR");
+    setProduct(row);
     setOpen(!open);
   };
 
   const handleSaveData = (data) => {
-    console.log(data);
-  };
-  const handleClickDelete = (id) => {
-    console.log("Delete Producto: ", id);
-    setTitleModal("ELIMINAR");
-    setOpen(!open);
+    if (!titleModal.search("AGREGAR")) {
+      dispatch(createProduct(data));
+    }
+
+    if (!titleModal.search("ACTUALIZAR")) {
+      dispatch(updateProduct(data));
+    }
+
+    if (!titleModal.search("ELIMINAR")) {
+      dispatch(deleteProduct(data.id));
+    }
   };
 
   useEffect(() => {
-    // fetch("https://fakestoreapi.com/products/1")
-    //   .then((res) => res.json())
-    //   .then((json) => {
-    //     console.log(json);
+    const resp = getListProducts();
+    resp.then((p) => dispatch(getAllProducts(p)));
 
-    setColumns(
-      header.concat([
-        {
-          field: "actions",
-          type: "actions",
-          headerName: "Acciones",
-          cellClassName: "actions",
-        },
-      ])
-    );
-    setRows(products);
-    // });
-  }, [header, products]);
+    if (status === "registered") {
+      refMessage.current = `registrados`;
+      messageApi.open({
+        type: "success",
+        content: `Los datos fueron ${refMessage.current}.`,
+        duration: 5,
+      });
+      setProduct({});
+      setOpen(false);
+    }
 
-  console.log(products);
+    if (status === "error") {
+      refMessage.current = `error`;
+      messageApi.open({
+        type: "error",
+        content: `Hubo un ${refMessage.current}, el producto ya existe`,
+      });
+    }
+
+    if (status === "updated") {
+      refMessage.current = `actualizados`;
+      messageApi.open({
+        type: "success",
+        content: `Los datos fueron ${refMessage.current}.`,
+        duration: 5,
+      });
+      setProduct({});
+      setOpen(false);
+    }
+    if (status === "deleted") {
+      refMessage.current = `eliminados`;
+      messageApi.open({
+        type: "success",
+        content: `Los datos fueron ${refMessage.current}.`,
+        duration: 5,
+      });
+      setProduct({});
+      setOpen(false);
+    }
+  }, [dispatch, messageApi, status]);
+
   return (
     <Box>
+      {contextHolder}
       <Typography sx={styles.pageTitle} variant="h5">
         PRODUCTOS EN VENTA
       </Typography>
       <Divider style={styles.divider} />
       <Box>
         <ListProducts
-          rows={rows}
-          columns={columns}
+          rows={products}
+          columns={header}
           valueButton="Agregar producto"
           iconButton={<AddIcon />}
           handleClick={handleClick}
@@ -78,7 +127,7 @@ function ProductsContainer(params) {
         handleClick={handleClick}
         onSubmit={handleSaveData}
         title={titleModal}
-        data={client}
+        data={product}
         messageDelete="Está seguro que desea eliminar el producto?"
       />
     </Box>

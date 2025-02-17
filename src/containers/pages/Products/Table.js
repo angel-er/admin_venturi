@@ -54,8 +54,6 @@ function ListProducts({
     setPage(0);
   };
 
-  console.log("rows in the table: ", rows);
-
   return (
     <Box>
       <Box style={styles.buttonContainer}>
@@ -83,7 +81,7 @@ function ListProducts({
                       key={`${col.field}-${indx}`}
                       align={
                         `${col.field}` === "description" ||
-                        `${col.field}` === "name"
+                        `${col.field}` === "name_product"
                           ? "left"
                           : "center"
                       }
@@ -111,13 +109,16 @@ function ListProducts({
                             {row.id}
                           </StyledTableCell>
                           <StyledTableCell align="left">
-                            {row.name}
+                            {row.name_product}
                           </StyledTableCell>
                           <StyledTableCell align="left">
                             {row.description}
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            {row.price}
+                            {row.price_product}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {new Date(row.created).toLocaleDateString()}
                           </StyledTableCell>
                           <StyledTableCell align="center">
                             <IconButton
@@ -131,7 +132,7 @@ function ListProducts({
                             <IconButton
                               style={styles.buttonIcon}
                               onClick={() => {
-                                handleClickDelete(row.id);
+                                handleClickDelete(row);
                               }}
                             >
                               <DeleteForeverIcon style={{ color: "red" }} />
