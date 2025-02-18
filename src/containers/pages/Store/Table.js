@@ -43,8 +43,6 @@ function ListStore({ valueButton, iconButton, columns, rows, handleClick }) {
     setPage(0);
   };
 
-  console.log("rows in the table: ", rows);
-
   return (
     <Box>
       <Box style={styles.buttonContainer}>

@@ -6,7 +6,7 @@ import AddTaskIcon from "@mui/icons-material/AddTask";
 import CustomizedDialogs from "./Form.js";
 import ListStore from "./Table.js";
 import theme from "#config/theme.js";
-import { getListStores } from "#services/store.js";
+import { createStore, getListStores } from "#services/store.js";
 import { getAllStores } from "#redux/slices/storeSlice.js";
 
 function StoreContainer(params) {
@@ -15,23 +15,23 @@ function StoreContainer(params) {
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
   const [open, setOpen] = useState(false);
-  const [client, setClient] = useState({});
+  const [store, setStore] = useState({});
   const [titleModal, setTitleModal] = useState("");
 
   const { stores, header, status, error } = useSelector((state) => state.Store);
 
   const handleClick = (id, action) => {
-    setTitleModal("AGREGAR PRODUCTO AL ALMACEN");
+    setTitleModal("AGREGAR PRODUCTO COMPRADO");
     setOpen(!open);
   };
   const handleClickEdit = (row) => {
     setTitleModal("ACTUALIZAR/CAMBIAR DATOS");
-    setClient(row);
+    setStore(row);
     setOpen(!open);
   };
 
   const handleSaveData = (data) => {
-    console.log(data);
+    dispatch(createStore(data));
   };
   const handleClickDelete = (id) => {
     console.log("Delete Producto: ", id);
@@ -66,7 +66,7 @@ function StoreContainer(params) {
         handleClick={handleClick}
         onSubmit={handleSaveData}
         title={titleModal}
-        data={client}
+        data={store}
         messageDelete="Está seguro que desea eliminar el producto?"
       />
     </Box>

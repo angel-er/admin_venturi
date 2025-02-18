@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { columns } from "./dataRandom/data-store";
+import { createStore } from "#services/store.js";
 
 const initState = {
   stores: [],
   header: columns,
+  error: null,
+  status: "uninitialized",
 };
 
 const storeSlice = createSlice({
@@ -13,14 +16,22 @@ const storeSlice = createSlice({
     getAllStores: (state, action) => {
       return { ...state, stores: action.payload.reverse() };
     },
-    getStore: (state, action) => {
-      return {
-        ...state,
-      };
-    },
-    saveStore: (state, action) => {
-      return { ...state };
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(createStore.pending, (state, action) => {
+        state.status = "ĺoading";
+      })
+      .addCase(createStore.fulfilled, (state, action) => {
+        state.status = `${
+          action.payload.status === 404 ? "error" : "registered"
+        }`;
+        action?.payload && state.stores.unshift(action.payload);
+      })
+      .addCase(createStore.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.message;
+      });
   },
 });
 

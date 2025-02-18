@@ -24,9 +24,10 @@ export default function Form({
   } = useForm({ defaultValues: {} });
 
   useEffect(() => {
-    setValue("name", data.name);
-    setValue("price", data.price);
-    setValue("quantity", data.quantity);
+    setValue("name", data.name_store);
+    setValue("unit", data.unit_store);
+    setValue("quantity", data.quantity_store);
+    setValue("price", data.price_store);
   }, [data, setValue]);
 
   const cancelModal = () => {
@@ -41,9 +42,17 @@ export default function Form({
           {title !== "ELIMINAR" ? (
             <>
               <TextField
-                label="Nombre"
+                label="Producto Comprado"
                 fullWidth
                 {...register("name", { required: "El nombre es necesario" })}
+                error={!!errors.name}
+                helperText={errors.name?.message}
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="U/M"
+                fullWidth
+                {...register("unit", { required: "La unidad es necesario" })}
                 error={!!errors.name}
                 helperText={errors.name?.message}
                 sx={{ mb: 2 }}
