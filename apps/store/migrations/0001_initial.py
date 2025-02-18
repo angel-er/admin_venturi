@@ -12,21 +12,21 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Product',
+            name='Store',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('code', models.CharField(auto_created=True, blank=True, max_length=150, null=True, unique=True)),
-                ('name_product', models.CharField(max_length=150, unique=True)),
-                ('description', models.CharField(max_length=150, null=True)),
-                ('image', models.ImageField(blank=True, null=True, upload_to='products')),
-                ('price_product', models.DecimalField(decimal_places=2, max_digits=13)),
+                ('name_store', models.CharField(max_length=150, unique=True)),
+                ('unit_store', models.CharField(max_length=150)),
+                ('quantity_store', models.DecimalField(decimal_places=2, max_digits=13)),
+                ('price_store', models.DecimalField(decimal_places=2, max_digits=13)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True)),
             ],
             options={
-                'verbose_name': 'Product',
-                'verbose_name_plural': 'Products',
-                'order_with_respect_to': 'name_product',
+                'verbose_name': 'Store',
+                'verbose_name_plural': 'Stores',
+                'order_with_respect_to': 'name_store',
             },
         ),
     ]

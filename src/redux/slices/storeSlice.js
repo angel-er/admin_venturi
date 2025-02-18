@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { columns, rows } from "./dataRandom/data-store";
+import { columns } from "./dataRandom/data-store";
 
 const initState = {
-  stores: rows,
+  stores: [],
   header: columns,
 };
 
@@ -11,9 +11,7 @@ const storeSlice = createSlice({
   initialState: initState,
   reducers: {
     getAllStores: (state, action) => {
-      return {
-        ...state,
-      };
+      return { ...state, stores: action.payload.reverse() };
     },
     getStore: (state, action) => {
       return {

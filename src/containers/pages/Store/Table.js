@@ -67,7 +67,8 @@ function ListStore({ valueButton, iconButton, columns, rows, handleClick }) {
                     <StyledTableCell
                       key={`${col.field}-${indx}`}
                       align={
-                        `${col.field}` === "name" || `${col.field}` === "date"
+                        `${col.field}` === "name_store" ||
+                        `${col.field}` === "date"
                           ? "left"
                           : "center"
                       }
@@ -94,20 +95,23 @@ function ListStore({ valueButton, iconButton, columns, rows, handleClick }) {
                           <StyledTableCell align="center">
                             {row.id}
                           </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {new Date(row.created).toLocaleDateString()}
+                          </StyledTableCell>
                           <StyledTableCell align="left">
-                            {row.date}
-                          </StyledTableCell>
-                          <StyledTableCell align="left">
-                            {row.name}
+                            {row.name_store}
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            {row.quantity}
+                            {row.unit_store}
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            {row.price}
+                            {row.quantity_store}
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            {row.subtotal}
+                            {row.price_store}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                            {+row.quantity_store * +row.price_store}
                           </StyledTableCell>
                         </StyledTableRow>
                       ))
