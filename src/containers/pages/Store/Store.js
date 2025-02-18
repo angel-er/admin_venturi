@@ -1,33 +1,37 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Box, Divider, Typography } from "@mui/material";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 
 import CustomizedDialogs from "./Form.js";
 import ListStore from "./Table.js";
 import theme from "#config/theme.js";
+import { createStore, getListStores } from "#services/store.js";
+import { getAllStores } from "#redux/slices/storeSlice.js";
 
 function StoreContainer(params) {
+  const dispatch = useDispatch();
+
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
   const [open, setOpen] = useState(false);
-  const [client, setClient] = useState({});
+  const [store, setStore] = useState({});
   const [titleModal, setTitleModal] = useState("");
 
-  const { stores, header } = useSelector((state) => state.Store);
+  const { stores, header, status, error } = useSelector((state) => state.Store);
 
   const handleClick = (id, action) => {
-    setTitleModal("AGREGAR PRODUCTO AL ALMACEN");
+    setTitleModal("AGREGAR PRODUCTO COMPRADO");
     setOpen(!open);
   };
   const handleClickEdit = (row) => {
     setTitleModal("ACTUALIZAR/CAMBIAR DATOS");
-    setClient(row);
+    setStore(row);
     setOpen(!open);
   };
 
   const handleSaveData = (data) => {
-    console.log(data);
+    dispatch(createStore(data));
   };
   const handleClickDelete = (id) => {
     console.log("Delete Producto: ", id);
@@ -36,16 +40,9 @@ function StoreContainer(params) {
   };
 
   useEffect(() => {
-    // fetch("https://fakestoreapi.com/products/1")
-    //   .then((res) => res.json())
-    //   .then((json) => {
-    //     console.log(json);
-
-    setColumns(header);
-    console.log("rowStore: ", stores);
-    setRows(stores);
-    // });
-  }, [stores, header]);
+    const resp = getListStores();
+    resp.then((store) => dispatch(getAllStores(store)));
+  }, []);
 
   return (
     <Box>
@@ -55,8 +52,8 @@ function StoreContainer(params) {
       <Divider style={styles.divider} />
       <Box sx={styles.columnContainer}>
         <ListStore
-          rows={rows}
-          columns={columns}
+          rows={stores}
+          columns={header}
           valueButton="Agregar compra"
           iconButton={<AddTaskIcon />}
           handleClick={handleClick}
@@ -69,7 +66,7 @@ function StoreContainer(params) {
         handleClick={handleClick}
         onSubmit={handleSaveData}
         title={titleModal}
-        data={client}
+        data={store}
         messageDelete="Está seguro que desea eliminar el producto?"
       />
     </Box>

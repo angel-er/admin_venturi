@@ -45,7 +45,7 @@ DJANGO_APPS = [ # manual - cambiar a DJANGO_APPS
     'django.contrib.humanize',
 ]
 
-PROJECT_APPS = ['apps.client', 'apps.product',] # manual - realizar esta configuracion
+PROJECT_APPS = ['apps.client', 'apps.product', 'apps.store',] # manual - realizar esta configuracion
 
 # manual - realizar esta configuracion
 THIRD_PARTY_APPS = [

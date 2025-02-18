@@ -8,7 +8,7 @@ export const columns = [
   },
   {
     field: "name_product",
-    headerName: "Nombre",
+    headerName: "Producto",
     width: 200,
     headerAlign: "center",
     align: "center",
