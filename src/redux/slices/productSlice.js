@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { columns } from "./dataRandom/data-products";
+import { columns } from "./headers/data-products";
 import {
   createProduct,
   deleteProduct,

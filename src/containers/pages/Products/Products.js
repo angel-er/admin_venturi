@@ -60,8 +60,8 @@ function ProductsContainer(params) {
   };
 
   useEffect(() => {
-    const resp = getListProducts();
-    resp.then((p) => dispatch(getAllProducts(p)));
+    // const resp = getListProducts();
+    // resp.then((p) => dispatch(getAllProducts(p)));
 
     if (status === "registered") {
       refMessage.current = `registrados`;

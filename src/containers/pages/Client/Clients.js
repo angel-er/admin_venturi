@@ -57,8 +57,8 @@ function ClientsContainer(params) {
   };
 
   useEffect(() => {
-    const data = getListClients();
-    data.then((da) => dispatch(getAllClients(da)));
+    // const data = getListClients();
+    // data.then((da) => dispatch(getAllClients(da)));
 
     if (status === "registered") {
       refMessage.current = `registrado`;
