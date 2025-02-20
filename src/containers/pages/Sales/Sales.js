@@ -59,14 +59,16 @@ function SalesContainer(params) {
   };
 
   const onSubmit = (formData) => {
+    console.log(formData);
     setPrint(true);
     setTicketDetails(formData);
     console.log(formData);
   };
 
-  const clickPrint = () => {
-    setCartList([]);
-    setTotalSum(0);
+  const clickPrint = (data) => {
+    console.log(data);
+    // setCartList([]);
+    // setTotalSum(0);
   };
 
   return (

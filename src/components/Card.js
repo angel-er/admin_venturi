@@ -71,22 +71,22 @@ function CardCustomer(
           role="list"
         >
           {list.map((value, idx) => {
-            const labelIdName = `transfer-list-all-item-${value.name}-label`;
+            const labelIdName = `transfer-list-all-item-${value.name_product}-label`;
             if (!actions) {
               return (
                 <ListItemButton
-                  key={value.name}
+                  key={value.name_product}
                   role="listitem"
                   onClick={() => handleToggle(value.id)}
                 >
                   <ListItemText
                     sx={{ width: "50%" }}
                     id={labelIdName}
-                    primary={value.name}
+                    primary={value.name_product}
                   />
                   <ListItemText
                     id={labelIdName}
-                    primary={`Bs. ${value.price}`}
+                    primary={`Bs. ${value.price_product}`}
                   />
                 </ListItemButton>
               );

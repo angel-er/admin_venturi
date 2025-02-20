@@ -22,10 +22,10 @@ export default function FormAddPurchase({
   } = useForm({ defaultValues: {} });
 
   useEffect(() => {
-    setValue("name", data?.name);
+    setValue("name", data?.name_product);
     setValue("description", data?.description);
     setValue("id", data?.id);
-    setValue("price", data?.price);
+    setValue("price", data?.price_product);
   }, [data, setValue]);
 
   const cancelModal = () => {
@@ -38,7 +38,7 @@ export default function FormAddPurchase({
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent dividers>
           <Box>
-            <Typography variant="h4">{data?.name}</Typography>
+            <Typography variant="h4">{data?.name_product}</Typography>
           </Box>
           <Box sx={{ mt: 3, mb: 3 }}>
             <Typography variant="h6">Descripción: </Typography>
