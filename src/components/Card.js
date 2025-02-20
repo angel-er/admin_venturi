@@ -16,6 +16,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import theme from "#config/theme.js";
 
 function CardCustomer(
   {
@@ -29,6 +30,9 @@ function CardCustomer(
     handleToggle,
     handleRemoveList,
     handOpenPaymentForm,
+    iconButtonAdd = "",
+    valueButtonAdd = null,
+    onClickOpenModal,
   },
   props
 ) {
@@ -55,6 +59,16 @@ function CardCustomer(
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Typography color="primary">{cardTitle}</Typography>
             {actions && <Typography variant="h6">{totalSum}</Typography>}
+            {valueButtonAdd && (
+              <Button
+                style={styles.button}
+                variant="contained"
+                startIcon={iconButtonAdd}
+                onClick={onClickOpenModal}
+              >
+                {valueButtonAdd}
+              </Button>
+            )}
           </Box>
         }
         subheader={subheader}
@@ -159,6 +173,7 @@ const styles = {
     marginBottom: 20,
   },
   cardActions: { justifyContent: "space-between" },
+  button: { backgroundColor: theme.palette.neutral.medium },
 };
 
 export default CardCustomer;

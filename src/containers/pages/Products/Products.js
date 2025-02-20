@@ -9,10 +9,8 @@ import theme from "#config/theme.js";
 import {
   createProduct,
   deleteProduct,
-  getListProducts,
   updateProduct,
 } from "#services/product.js";
-import { getAllProducts } from "#redux/slices/productSlice.js";
 import { message } from "antd";
 
 function ProductsContainer(params) {
