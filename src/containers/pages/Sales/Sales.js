@@ -74,7 +74,6 @@ function SalesContainer(params) {
     setOpenModalNewProduct(!openModalNewProduct);
   };
   const handleNewProduct = (data) => {
-    console.log("new product");
     dispatch(createProduct(data));
     setOpenModalNewProduct(!openModalNewProduct);
   };
