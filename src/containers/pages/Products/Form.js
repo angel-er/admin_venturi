@@ -12,7 +12,7 @@ export default function Modal({
   open,
   title,
   onSubmit,
-  data,
+  data = {},
   messageDelete,
 }) {
   const {

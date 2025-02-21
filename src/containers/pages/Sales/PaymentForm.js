@@ -116,9 +116,16 @@ export default function PaymentForm({
       payments,
       data,
     };
-
-    onSubmit(formData);
-    handleClick();
+    if (
+      methodPaymentSelect.length > 0 &&
+      (payments.cash || payments.qr || payments.card)
+    ) {
+      setMethodPaymentSelect([]);
+      setPayments({ cash: 0, qr: 0, card: 0 });
+      setTotalEntered(0);
+      onSubmit(formData);
+      handleClick();
+    }
   };
 
   return (
@@ -159,7 +166,7 @@ export default function PaymentForm({
                     value={cl.id}
                     //   style={getStyles(cl.name, personName, theme)}
                   >
-                    {cl.name}
+                    {`${cl.name} ${cl.last_name}`}
                   </MenuItem>
                 ))}
               </Select>

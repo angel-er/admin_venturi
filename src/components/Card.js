@@ -16,6 +16,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import theme from "#config/theme.js";
 
 function CardCustomer(
   {
@@ -29,6 +30,9 @@ function CardCustomer(
     handleToggle,
     handleRemoveList,
     handOpenPaymentForm,
+    iconButtonAdd = "",
+    valueButtonAdd = null,
+    onClickOpenModal,
   },
   props
 ) {
@@ -55,6 +59,16 @@ function CardCustomer(
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Typography color="primary">{cardTitle}</Typography>
             {actions && <Typography variant="h6">{totalSum}</Typography>}
+            {valueButtonAdd && (
+              <Button
+                style={styles.button}
+                variant="contained"
+                startIcon={iconButtonAdd}
+                onClick={onClickOpenModal}
+              >
+                {valueButtonAdd}
+              </Button>
+            )}
           </Box>
         }
         subheader={subheader}
@@ -71,22 +85,22 @@ function CardCustomer(
           role="list"
         >
           {list.map((value, idx) => {
-            const labelIdName = `transfer-list-all-item-${value.name}-label`;
+            const labelIdName = `transfer-list-all-item-${value.name_product}-label`;
             if (!actions) {
               return (
                 <ListItemButton
-                  key={value.name}
+                  key={value.name_product}
                   role="listitem"
                   onClick={() => handleToggle(value.id)}
                 >
                   <ListItemText
                     sx={{ width: "50%" }}
                     id={labelIdName}
-                    primary={value.name}
+                    primary={value.name_product}
                   />
                   <ListItemText
                     id={labelIdName}
-                    primary={`Bs. ${value.price}`}
+                    primary={`Bs. ${value.price_product}`}
                   />
                 </ListItemButton>
               );
@@ -159,6 +173,7 @@ const styles = {
     marginBottom: 20,
   },
   cardActions: { justifyContent: "space-between" },
+  button: { backgroundColor: theme.palette.neutral.medium },
 };
 
 export default CardCustomer;

@@ -1,16 +1,20 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { Badge, Box, Divider, Typography } from "@mui/material";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
+import AddIcon from "@mui/icons-material/Add";
 
 import CardCustomer from "#components/Card.js";
 import theme from "#config/theme.js";
 import FormAddPurchase from "./FormAddPurchase";
 import PaymentForm from "./PaymentForm";
 import PrintButton from "#utils/ButtonPrintPDF.js";
+import CustomizedDialogs from "#containers/pages/Products/Form.js";
+import { createProduct } from "#services/product.js";
 
 function SalesContainer(params) {
+  const dispatch = useDispatch();
   const { products } = useSelector((state) => state.Product);
   const { clients } = useSelector((state) => state.Client);
   const { payment_type } = useSelector((state) => state.Sale);
@@ -22,6 +26,7 @@ function SalesContainer(params) {
   const [cartList, setCartList] = useState([]);
   const [totalSum, setTotalSum] = useState(0);
   const [ticketDetails, setTicketDetails] = useState({});
+  const [openModalNewProduct, setOpenModalNewProduct] = useState(false);
 
   const handleToggle = (id) => {
     setOpenAddForm(!openAdForm);
@@ -59,14 +64,24 @@ function SalesContainer(params) {
   };
 
   const onSubmit = (formData) => {
+    console.log(formData);
     setPrint(true);
     setTicketDetails(formData);
     console.log(formData);
   };
 
-  const clickPrint = () => {
-    setCartList([]);
-    setTotalSum(0);
+  const onOpenModalNewProduct = () => {
+    setOpenModalNewProduct(!openModalNewProduct);
+  };
+  const handleNewProduct = (data) => {
+    dispatch(createProduct(data));
+    setOpenModalNewProduct(!openModalNewProduct);
+  };
+
+  const clickPrint = (data) => {
+    console.log(data);
+    // setCartList([]);
+    // setTotalSum(0);
   };
 
   return (
@@ -89,6 +104,9 @@ function SalesContainer(params) {
           titleHeader={`PRODUCTOS VENTURI`}
           list={products}
           handleToggle={handleToggle}
+          iconButtonAdd={<AddIcon />}
+          valueButtonAdd="AGREGAR PRODUCTO"
+          onClickOpenModal={onOpenModalNewProduct}
         />
         <CardCustomer
           iconCardTitle={
@@ -122,6 +140,12 @@ function SalesContainer(params) {
         clients={clients}
         paymentType={payment_type}
         onSubmit={onSubmit}
+      />
+      <CustomizedDialogs
+        open={openModalNewProduct}
+        handleClick={onOpenModalNewProduct}
+        onSubmit={handleNewProduct}
+        title="NUEVO PRODUCTO"
       />
     </Box>
   );

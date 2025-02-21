@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { columns } from "./dataRandom/data-store";
+import { columns } from "./headers/data-store";
 import { createStore } from "#services/store.js";
 
 const initState = {
