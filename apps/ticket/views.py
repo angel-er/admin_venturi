@@ -1,5 +1,5 @@
-from .serializers import TicketSerializer
-from .models import Ticket
+from .serializers import TicketSerializer, TicketItemSerializer
+from .models import Ticket, TicketItem
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -7,18 +7,62 @@ from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListAPIView
 
 # Create your views here.
 class TicketAPIView(APIView):
+    def get(self, request, pk=None):
+        if pk:
+            ticket = Ticket.objects.get(pk=pk)
+            serializer = TicketSerializer(ticket)
+        else:
+            tickets = Ticket.objects.all()
+            serializer = TicketSerializer(tickets, many=True)
+        return Response(serializer.data)
+
     def post(self, request):
         serializer = TicketSerializer(data=request.data)
         if serializer.is_valid():
-            ticket = serializer.save()
-            return Response(TicketSerializer(ticket).data, status=status.HTTP_201_CREATED)
+            serializer = serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    def put(self, request, pk):
+        ticket = Ticket.objects.get(pk=pk)
+        serializer = TicketSerializer(ticket, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class TicketDetailAPIView(RetrieveUpdateDestroyAPIView):
-    queryset = Ticket.objects.all()
-    serializer_class = TicketSerializer
+    def delete(self, request, pk):
+        ticket = Ticket.objects.get(pk=pk)
+        ticket.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
 
-class TicketListAPIView(ListAPIView):
-    queryset = Ticket.objects.all()
-    serializer_class = TicketSerializer
+class TicketItemAPIView(RetrieveUpdateDestroyAPIView):
+    def get(self, request, pk=None):
+        if pk:
+            ticket_item = TicketItem.objects.get(pk=pk)
+            serializer = TicketItemSerializer(ticket_item)
+        else:
+            ticket_items = TicketItem.objects.all()
+            serializer = TicketItemSerializer(ticket_items, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = TicketItemSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, pk):
+        ticket_item = TicketItem.objects.get(pk=pk)
+        serializer = TicketItemSerializer(ticket_item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        ticket_item = TicketItem.objects.get(pk=pk)
+        ticket_item.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

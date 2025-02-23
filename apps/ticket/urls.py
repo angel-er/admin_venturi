@@ -2,7 +2,8 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('', TicketListAPIView.as_view(), name='ticket-list'),
-    path('create/', TicketAPIView.as_view(), name='ticket-create'),
-    path('detail/<int:pk>/', TicketDetailAPIView.as_view(), name='ticket-detail'),
+    path('', TicketAPIView.as_view(), name='ticket-list'),
+    path('<int:pk>/', TicketAPIView.as_view(), name='ticket-detail'),
+    path('items/', TicketItemAPIView.as_view(), name='ticket-item-list'),
+    path('items/<int:pk>/', TicketItemAPIView.as_view(), name='ticket-item-detail'),
 ]

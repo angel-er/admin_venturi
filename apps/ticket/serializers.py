@@ -1,25 +1,22 @@
-from .models import Detail, Ticket
+from .models import TicketItem, Ticket
 from rest_framework import serializers
 
-class DetailSerializer(serializers.ModelSerializer):
+class TicketItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Detail
-        fields = ['id', 'ticket', 'product', 'quantity_product', 'price_product', 'subtotal_product', 'created',]
+        model = TicketItem
+        fields = ['id', 'ticket', 'product', 'quantity', 'price', 'subtotal', 'created',]
 
 
 class TicketSerializer(serializers.ModelSerializer):
-    details = DetailSerializer(many=True)
+    items = TicketItemSerializer(many=True)
 
     class Meta:
         model = Ticket
-        fields = ['id', 'date', 'client', 'details', 'order_type', 'payment_cash', 'payment_qr', 'payment_card', 'total_canceled', 'total_amount', 'change',]
+        fields = ['id', 'date', 'client', 'items', 'payment_type', 'service_type', 'payment_cash', 'payment_qr', 'payment_card', 'total_canceled', 'total_amount', 'change',]
 
     def create(self, validated_data):
-        details_data = validated_data.pop('details')
+        items_data = validated_data.pop('items')
         ticket = Ticket.objects.create(**validated_data)
-        for detail_data in details_data:
-            Detail.objects.create(ticket=ticket, **detail_data)
-        ticket.calculate_total()
-        ticket.calculate_total_canceled()
-        ticket.calculate_change()
+        for item_data in items_data:
+            TicketItem.objects.create(ticket=ticket, **item_data)
         return ticket
