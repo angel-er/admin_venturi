@@ -12,12 +12,13 @@ import PaymentForm from "./PaymentForm";
 import PrintButton from "#utils/ButtonPrintPDF.js";
 import CustomizedDialogs from "#containers/pages/Products/Form.js";
 import { createProduct } from "#services/product.js";
+import { createTicket } from "#services/ticket.js";
 
 function SalesContainer(params) {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.Product);
   const { clients } = useSelector((state) => state.Client);
-  const { payment_type } = useSelector((state) => state.Sale);
+  const { payment_type, tickets } = useSelector((state) => state.Ticket);
 
   const [print, setPrint] = useState(false);
   const [openAdForm, setOpenAddForm] = useState(false);
@@ -64,10 +65,9 @@ function SalesContainer(params) {
   };
 
   const onSubmit = (formData) => {
-    console.log(formData);
-    setPrint(true);
+    // setPrint(true);
     setTicketDetails(formData);
-    console.log(formData);
+    const saveTicket = dispatch(createTicket(formData));
   };
 
   const onOpenModalNewProduct = () => {

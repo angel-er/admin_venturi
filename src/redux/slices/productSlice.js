@@ -18,7 +18,10 @@ const productSlice = createSlice({
   initialState: initState,
   reducers: {
     getAllProducts: (state, action) => {
-      return { ...state, products: action.payload.reverse() };
+      return {
+        ...state,
+        products: !action.payload ? [] : action.payload.reverse(),
+      };
     },
   },
   extraReducers: (builder) => {
@@ -40,6 +43,7 @@ const productSlice = createSlice({
         state.status = "ĺoading";
       })
       .addCase(updateProduct.fulfilled, (state, action) => {
+        console.log("ACTION EDIT PRODUCT: ", action);
         state.status = `${action.payload.status === 404 ? "error" : "updated"}`;
         action.payload &&
           state.products.filter((c, idx) =>

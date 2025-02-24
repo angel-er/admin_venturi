@@ -12,6 +12,8 @@ import { getListProducts } from "#services/product.js";
 import { getAllProducts } from "#redux/slices/productSlice.js";
 import { getListClients } from "#services/client.js";
 import { getAllClients } from "#redux/slices/clientSlice.js";
+import { getListTickets } from "#services/ticket.js";
+import { getAllTickets } from "#redux/slices/ticketSlice.js";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -24,6 +26,9 @@ function AppRoutes() {
 
     const clients = getListClients();
     clients.then((cls) => dispatch(getAllClients(cls)));
+
+    const tickets = getListTickets();
+    tickets.then((t) => dispatch(getAllTickets(t)));
   }, [dispatch]);
 
   return (

@@ -14,7 +14,10 @@ const clientSlice = createSlice({
   initialState: initState,
   reducers: {
     getAllClients: (state, action) => {
-      return { ...state, clients: action?.payload?.reverse() };
+      return {
+        ...state,
+        clients: !action.payload ? [] : action.payload.reverse(),
+      };
     },
   },
   extraReducers: (builder) => {
@@ -34,7 +37,7 @@ const clientSlice = createSlice({
       })
       .addCase(updateClient.fulfilled, (state, action) => {
         state.status = `${action.payload.status === 404 ? "error" : "updated"}`;
-        action.payload &&
+        action?.payload &&
           state.clients.filter((c, idx) =>
             c.id === action.payload.id ? action.payload : c
           );
