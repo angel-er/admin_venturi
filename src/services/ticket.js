@@ -2,15 +2,14 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import apiUrl from "#services/config.js";
 
 const parseData = (data) => {
+  const canceled =
+    +data.payments.cash + +data.payments.qr + +data.payments.card;
   const setItems = data.items.map((i, idx) => {
     return {
       product: i.id,
-      // name: i.name,
-      // description: i.description,
       price: i.price,
       quantity: i.quantity,
       subtotal: +i.price * +i.quantity,
-      // i["ticket"] = `THV-00000${data.monthlyTickets + 1}`;}
     };
   });
 
@@ -22,8 +21,8 @@ const parseData = (data) => {
     payment_cash: data.payments.cash,
     payment_qr: data.payments.qr,
     payment_card: data.payments.card,
-    // total_canceled:
-    //   +data.payments.cash + +data.payments.qr + +data.payments.card,
+    total_canceled: canceled,
+    change: canceled > data.amountPaid ? canceled - data.amountPaid : 0,
   };
 };
 

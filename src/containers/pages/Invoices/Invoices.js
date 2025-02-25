@@ -1,14 +1,24 @@
+import { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { Divider } from "antd";
 import ListInvoices from "./Table";
 import { useSelector } from "react-redux";
 import theme from "#config/theme.js";
+import TicketDetail from "./Detail";
 
 function InvoicesContainer() {
   const { tickets, header } = useSelector((state) => state.Ticket);
 
+  const [openDetail, setOpenDetail] = useState(false);
+  const [detail, setDetail] = useState({});
+
   const handleViewClick = (data) => {
     console.log("VIEW MORE DATA: ", data);
+    setDetail(data);
+    setOpenDetail(!openDetail);
+  };
+  const handleDetailClick = (data) => {
+    setOpenDetail(!openDetail);
   };
   return (
     <Box>
@@ -21,13 +31,15 @@ function InvoicesContainer() {
         <ListInvoices
           rows={tickets}
           columns={header}
-          // valueButton="Agregar producto"
-          // iconButton={<AddIcon />}
           handleClick={handleViewClick}
-          // handleClickEdit={handleClickEdit}
-          // handleClickDelete={handleClickDelete}
         />
       </Box>
+      <TicketDetail
+        handleClick={handleDetailClick}
+        open={openDetail}
+        title="Detalle del Ticket"
+        data={detail}
+      />
     </Box>
   );
 }

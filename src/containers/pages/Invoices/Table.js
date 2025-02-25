@@ -53,6 +53,7 @@ function ListInvoices({
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  console.log("TABLE INVOICES: ", rows);
 
   return (
     <Box>

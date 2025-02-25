@@ -23,7 +23,7 @@ class TicketSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Extrae el client_id y elimínalo de validated_data
         client_id = validated_data.pop('client_id')
-        # Extrae los ítems del JSON recibido
+         # Extrae los ítems del JSON recibido
         items_data = validated_data.pop('items')
         # Obtén el cliente correspondiente
         client = Client.objects.get(id=client_id)
