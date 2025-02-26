@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 // import { Dashboard } from "@mui/icons-material";
-import DashboardContainer from "#containers/Dashboard.js";
+import DashboardContainer from "#containers/pages/Dashboard/Dashboard.js";
 import ClientsContainer from "#containers/pages/Client/Clients.js";
 import ProductsContainer from "#containers/pages/Products/Products.js";
 import SalesContainer from "#containers/pages/Sales/Sales.js";

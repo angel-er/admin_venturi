@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import { Box, Divider, Typography } from "@mui/material";
@@ -23,25 +21,18 @@ const columns = [
     key: "quantity",
   },
   {
-    title: "Precio",
+    title: "Precio Bs.",
     dataIndex: "price",
     key: "price",
   },
   {
-    title: "Subtotal",
+    title: "Subtotal Bs.",
     dataIndex: "subtotal",
     key: "subtotal",
   },
 ];
 
-export default function TicketDetail({
-  handleClick,
-  open,
-  title,
-  onSubmit,
-  data = {},
-  messageDelete,
-}) {
+export default function TicketDetail({ handleClick, open, title, data = {} }) {
   const cancelModal = () => {
     handleClick();
   };
@@ -104,12 +95,108 @@ export default function TicketDetail({
           </Grid>
           <Table
             columns={columns}
-            dataSource={data.items}
+            dataSource={
+              data?.items?.length > 0
+                ? data.items.map((item) => {
+                    return { ...item, name: item.product.name_product };
+                  })
+                : []
+            }
             pagination={false}
-            // bordered={true}
-            loading={false}
+            loading={!data ? true : false}
           />
         </Box>
+        <Divider sx={{ marginTop: 4 }} style={styles.divider} />
+        <Grid container spacing={1}>
+          <Grid size={{ xs: 8, md: 9 }}>
+            <Typography
+              variant="h7"
+              style={{
+                ...styles.typography,
+                textAlign: "right",
+                fontWeight: "bold",
+              }}
+            >
+              Total:
+            </Typography>
+            <Divider />
+            <Typography
+              variant="h7"
+              style={{ ...styles.typography, textAlign: "right" }}
+            >
+              Pago Efectivo:
+            </Typography>
+            <Typography
+              variant="h7"
+              style={{ ...styles.typography, textAlign: "right" }}
+            >
+              Pago QR:
+            </Typography>
+            <Typography
+              variant="h7"
+              style={{ ...styles.typography, textAlign: "right" }}
+            >
+              IVA (21%):
+            </Typography>
+            <Typography
+              variant="h7"
+              style={{ ...styles.typography, textAlign: "right" }}
+            >
+              Cancelado:
+            </Typography>
+            <Typography
+              variant="h7"
+              style={{ ...styles.typography, textAlign: "right" }}
+            >
+              Cambio:
+            </Typography>
+          </Grid>
+          <Grid size={{ xs: 4, md: 3 }}>
+            <Typography
+              variant="h7"
+              style={{
+                ...styles.typography,
+                textAlign: "right",
+                fontWeight: "bold",
+              }}
+            >
+              {data.total_amount} Bs.
+            </Typography>
+            <Divider />
+            <Typography
+              variant="h7"
+              style={{ ...styles.typography, textAlign: "right" }}
+            >
+              {data.payment_cash} Bs.
+            </Typography>
+            <Typography
+              variant="h7"
+              style={{ ...styles.typography, textAlign: "right" }}
+            >
+              {data.payment_qr} Bs.
+            </Typography>
+            <Typography
+              variant="h7"
+              style={{ ...styles.typography, textAlign: "right" }}
+            >
+              0.00 Bs.
+            </Typography>
+            <Typography
+              variant="h7"
+              style={{ ...styles.typography, textAlign: "right" }}
+            >
+              {data.total_canceled} Bs.
+            </Typography>
+            <Typography
+              variant="h7"
+              style={{ ...styles.typography, textAlign: "right" }}
+            >
+              {data.change} Bs.
+            </Typography>
+          </Grid>
+        </Grid>
+
+        {/* <Divider style={styles.divider} /> */}
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={cancelModal}>

@@ -13,10 +13,11 @@ class TicketAPIView(APIView):
         if pk:
             ticket = Ticket.objects.get(pk=pk)
             serializer = TicketSerializer(ticket)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             tickets = Ticket.objects.all()
             serializer = TicketSerializer(tickets, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
         # Serializa los datos recibidos

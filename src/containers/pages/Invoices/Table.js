@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Box, Button, IconButton, TablePagination } from "@mui/material";
-// import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { Box, IconButton, TablePagination } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Paper from "@mui/material/Paper";
@@ -33,15 +32,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function ListInvoices({
-  valueButton,
-  iconButton,
-  columns,
-  rows,
-  handleClick,
-  handleClickEdit,
-  handleClickDelete,
-}) {
+function ListInvoices({ columns, rows, handleClick }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -53,7 +44,6 @@ function ListInvoices({
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  console.log("TABLE INVOICES: ", rows);
 
   return (
     <Box>

@@ -1,12 +1,18 @@
 from rest_framework import serializers
 from .models import TicketItem, Ticket
 from apps.client.serializers import ClientSerializer
+from apps.product.serializers import ProductSerializer
+from apps.product.models import Product
 from apps.client.models import Client
 
 class TicketItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)  # Solo lectura para la respuesta
+    product_id = serializers.PrimaryKeyRelatedField(
+    queryset=Product.objects.all(), source='product', write_only=True
+    )  # Solo escritura para la creación # Incluye los datos completos del producto
     class Meta:
         model = TicketItem
-        fields = ['id','product', 'quantity', 'price', 'subtotal', 'created',]
+        fields = ['id','product', 'product_id', 'quantity', 'price', 'subtotal', 'created',]
         read_only_fields = ['ticket']
         # extra_kwargs = {
         #     'ticket': {'write_only': True}  # Excluye 'ticket' de la validación

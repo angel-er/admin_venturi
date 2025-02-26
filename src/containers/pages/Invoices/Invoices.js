@@ -5,6 +5,7 @@ import ListInvoices from "./Table";
 import { useSelector } from "react-redux";
 import theme from "#config/theme.js";
 import TicketDetail from "./Detail";
+import { getTicket } from "#services/ticket";
 
 function InvoicesContainer() {
   const { tickets, header } = useSelector((state) => state.Ticket);
@@ -13,8 +14,8 @@ function InvoicesContainer() {
   const [detail, setDetail] = useState({});
 
   const handleViewClick = (data) => {
-    console.log("VIEW MORE DATA: ", data);
-    setDetail(data);
+    const resp = getTicket(data.id);
+    resp.then((t) => setDetail(t));
     setOpenDetail(!openDetail);
   };
   const handleDetailClick = (data) => {

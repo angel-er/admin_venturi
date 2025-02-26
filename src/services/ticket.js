@@ -6,7 +6,7 @@ const parseData = (data) => {
     +data.payments.cash + +data.payments.qr + +data.payments.card;
   const setItems = data.items.map((i, idx) => {
     return {
-      product: i.id,
+      product_id: i.id,
       price: i.price,
       quantity: i.quantity,
       subtotal: +i.price * +i.quantity,
@@ -34,6 +34,20 @@ export const getListTickets = async () => {
     }
   } catch (error) {
     console.log("ERROR LIST STORES: ", error);
+  }
+};
+
+export const getTicket = async (id) => {
+  try {
+    const resp = await apiUrl.get(`/api/ticket/${id}/`, id);
+    if (resp.status === 200) {
+      return { ...resp.data };
+    }
+  } catch (error) {
+    console.log("RESPONSE ERROR TICKET: ", error);
+    if (error.status === 404) {
+      return { status: 404 };
+    }
   }
 };
 
