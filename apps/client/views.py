@@ -53,7 +53,6 @@ class ClientDetailView(APIView):
     def delete(self, request, pk=None):
         try:
             client = get_object_or_404(Client, pk=pk)
-            # serializer = ClientSerializer(client, data=request.data, partial=True)
             client.delete()
             return Response({"message": "Datos eliminados"}, status=status.HTTP_200_OK)
            

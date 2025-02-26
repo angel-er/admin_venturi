@@ -27,6 +27,7 @@ import imageCard from "../../../assets/image/card.jpeg";
 import App from "#utils/ButtonPrintPDF.js";
 import { data } from "autoprefixer";
 import { formatDate, formatTime } from "#helpers/formatDate.js";
+import { useSelector } from "react-redux";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -61,10 +62,12 @@ export default function PaymentForm({
     formState: { errors },
   } = useForm({ defaultValues: {} });
 
+  const { monthlyTickets } = useSelector((state) => state.Ticket);
+
   const [idClient, setIdClient] = useState();
   const [methodPaymentSelect, setMethodPaymentSelect] = useState([]);
   const [payments, setPayments] = useState({ cash: 0, qr: 0, card: 0 });
-  const [totalEntered, setTotalEntered] = useState(0);
+  const [change, setChange] = useState(0);
 
   const handleSelectClient = (event) => {
     const {
@@ -97,14 +100,14 @@ export default function PaymentForm({
     for (let key in payments) {
       sum += Number(payments[key]);
     }
-    setTotalEntered(sum - total);
+    setChange(sum - total);
   }, [data, setValue, payments, total]);
 
   const cancelModal = () => {
     // reset();
     setIdClient(null);
     setMethodPaymentSelect([]);
-    setTotalEntered(0);
+    setChange(0);
     setPayments({ cash: 0, qr: 0, card: 0 });
     handleClick();
   };
@@ -114,15 +117,19 @@ export default function PaymentForm({
       idClient,
       methodPaymentSelect,
       payments,
-      data,
+      items: data,
+      change,
+      amountPaid: total,
+      serviceType: "dine_in",
     };
+
     if (
       methodPaymentSelect.length > 0 &&
       (payments.cash || payments.qr || payments.card)
     ) {
       setMethodPaymentSelect([]);
       setPayments({ cash: 0, qr: 0, card: 0 });
-      setTotalEntered(0);
+      setChange(0);
       onSubmit(formData);
       handleClick();
     }
@@ -251,12 +258,12 @@ export default function PaymentForm({
               <Fragment>
                 <Divider style={styles.divider} />
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  {totalEntered > 0 && <WarningIcon color="warning" />}
-                  {totalEntered < 0 && <DangerousIcon color="error" />}
-                  {totalEntered === 0 && <VerifiedIcon color="success" />}
+                  {change > 0 && <WarningIcon color="warning" />}
+                  {change < 0 && <DangerousIcon color="error" />}
+                  {change === 0 && <VerifiedIcon color="success" />}
                   <Typography>
-                    {totalEntered > 0 ? `Cambio: Bs.` : `Falta: Bs.`}
-                    {totalEntered}
+                    {change > 0 ? `Cambio: Bs.` : `Falta: Bs.`}
+                    {change}
                   </Typography>
                 </Box>
               </Fragment>

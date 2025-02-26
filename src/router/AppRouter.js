@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 // import { Dashboard } from "@mui/icons-material";
-import DashboardContainer from "#containers/Dashboard.js";
+import DashboardContainer from "#containers/pages/Dashboard/Dashboard.js";
 import ClientsContainer from "#containers/pages/Client/Clients.js";
 import ProductsContainer from "#containers/pages/Products/Products.js";
 import SalesContainer from "#containers/pages/Sales/Sales.js";
@@ -12,6 +12,8 @@ import { getListProducts } from "#services/product.js";
 import { getAllProducts } from "#redux/slices/productSlice.js";
 import { getListClients } from "#services/client.js";
 import { getAllClients } from "#redux/slices/clientSlice.js";
+import { getListTickets } from "#services/ticket.js";
+import { getAllTickets } from "#redux/slices/ticketSlice.js";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -24,6 +26,9 @@ function AppRoutes() {
 
     const clients = getListClients();
     clients.then((cls) => dispatch(getAllClients(cls)));
+
+    const tickets = getListTickets();
+    tickets.then((t) => dispatch(getAllTickets(t)));
   }, [dispatch]);
 
   return (

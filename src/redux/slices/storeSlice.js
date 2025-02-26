@@ -14,7 +14,10 @@ const storeSlice = createSlice({
   initialState: initState,
   reducers: {
     getAllStores: (state, action) => {
-      return { ...state, stores: action.payload.reverse() };
+      return {
+        ...state,
+        stores: !action.payload ? [] : action.payload.reverse(),
+      };
     },
   },
   extraReducers: (builder) => {

@@ -8,7 +8,7 @@ from .serializers import ProductSerializer
 from django.shortcuts import get_object_or_404
 
 # Create your views here.
-class ProductsView(APIView):
+class ProductAPIView(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request, format=None):
@@ -28,7 +28,7 @@ class ProductsView(APIView):
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 print("ERROR SUCCES: ", serializer.errors)
-                return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+                return Response(serializer.errors, status=status.HTTP_404_BAD_REQUEST)
         except Exception as e:
             print("Error",str(e))
 
@@ -45,7 +45,7 @@ class ProductDetailView(APIView):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
-                return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+                return Response(serializer.errors, status=status.HTTP_404_BAD_REQUEST)
         except Exception as e:
             print("Error",str(e))
             return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
@@ -53,10 +53,8 @@ class ProductDetailView(APIView):
     def delete(self, request, pk=None):
         try:
             product = get_object_or_404(Product, pk=pk)
-            # serializer = ClientSerializer(client, data=request.data, partial=True)
             product.delete()
-            return Response({"message": "Datos eliminados"}, status=status.HTTP_200_OK)
-           
+            return Response({"message": "Datos eliminados"}, status=status.HTTP_200_OK) 
         except Exception as e:
             print("Error",str(e))
             return Response(product.errors, status=status.HTTP_404_NOT_FOUND)
