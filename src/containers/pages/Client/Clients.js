@@ -3,16 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Box, Divider, Typography } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { message } from "antd";
+
 import CustomizedDialogs from "./Form.js";
 import Table from "#containers/pages/Client/Table.js";
 import theme from "#config/theme.js";
-import { getAllClients } from "#redux/slices/clientSlice.js";
-import {
-  createClient,
-  getListClients,
-  updateClient,
-  deleteClient,
-} from "#services/client.js";
+import { createClient, updateClient, deleteClient } from "#services/client.js";
 
 function ClientsContainer(params) {
   let refMessage = useRef("");

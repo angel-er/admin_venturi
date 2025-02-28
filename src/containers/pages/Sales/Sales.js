@@ -18,7 +18,7 @@ function SalesContainer(params) {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.Product);
   const { clients } = useSelector((state) => state.Client);
-  const { payment_type, tickets } = useSelector((state) => state.Ticket);
+  const { payment_type } = useSelector((state) => state.Ticket);
 
   const [print, setPrint] = useState(false);
   const [openAdForm, setOpenAddForm] = useState(false);
@@ -47,15 +47,16 @@ function SalesContainer(params) {
 
   const addToCartList = (product) => {
     const sumPrice = +totalSum + +product.quantity * product.price;
-    setCartList(cartList.concat([product]));
+    setCartList(
+      cartList.concat([{ ...product, id_list: cartList.length + 1 }])
+    );
     setTotalSum(sumPrice);
     setOpenAddForm(!openAdForm);
   };
 
-  const handleRemoveList = async (id) => {
-    const findNumber = await cartList.filter((p) => p?.id === id)[0];
-    const updatedList = await cartList.filter((p) => p.id !== id);
-    const sumTotalPrice = +totalSum - +findNumber?.price * findNumber?.quantity;
+  const handleRemoveList = (product) => {
+    const updatedList = cartList.filter((p) => p?.id_list !== product.id_list);
+    const sumTotalPrice = +totalSum - +product?.price * product?.quantity;
     setCartList(updatedList);
     setTotalSum(sumTotalPrice);
   };
@@ -65,9 +66,13 @@ function SalesContainer(params) {
   };
 
   const onSubmit = (formData) => {
-    // setPrint(true);
-    setTicketDetails(formData);
+    setPrint(true);
     const saveTicket = dispatch(createTicket(formData));
+    saveTicket.then((resp) => {
+      setTicketDetails(resp.payload);
+      setCartList([]);
+      setTotalSum(0);
+    });
   };
 
   const onOpenModalNewProduct = () => {
@@ -79,9 +84,9 @@ function SalesContainer(params) {
   };
 
   const clickPrint = (data) => {
-    console.log(data);
     // setCartList([]);
     // setTotalSum(0);
+    setPrint(!print);
   };
 
   return (

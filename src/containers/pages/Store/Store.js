@@ -12,13 +12,11 @@ import { getAllStores } from "#redux/slices/storeSlice.js";
 function StoreContainer(params) {
   const dispatch = useDispatch();
 
-  const [columns, setColumns] = useState([]);
-  const [rows, setRows] = useState([]);
   const [open, setOpen] = useState(false);
   const [store, setStore] = useState({});
   const [titleModal, setTitleModal] = useState("");
 
-  const { stores, header, status, error } = useSelector((state) => state.Store);
+  const { stores, header } = useSelector((state) => state.Store);
 
   const handleClick = (id, action) => {
     setTitleModal("AGREGAR PRODUCTO COMPRADO");
@@ -42,7 +40,7 @@ function StoreContainer(params) {
   useEffect(() => {
     const resp = getListStores();
     resp.then((store) => dispatch(getAllStores(store)));
-  }, []);
+  }, [dispatch]);
 
   return (
     <Box>

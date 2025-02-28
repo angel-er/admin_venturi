@@ -20,13 +20,11 @@ import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlin
 import WarningIcon from "@mui/icons-material/Warning";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import DangerousIcon from "@mui/icons-material/Dangerous";
-
+import Grid from "@mui/material/Grid2";
 import { useForm } from "react-hook-form";
+
 import CustomizedDialogs from "#components/Modal.js";
 import imageCard from "../../../assets/image/card.jpeg";
-import App from "#utils/ButtonPrintPDF.js";
-import { data } from "autoprefixer";
-import { formatDate, formatTime } from "#helpers/formatDate.js";
 import { useSelector } from "react-redux";
 
 const ITEM_HEIGHT = 48;
@@ -62,12 +60,13 @@ export default function PaymentForm({
     formState: { errors },
   } = useForm({ defaultValues: {} });
 
-  const { monthlyTickets } = useSelector((state) => state.Ticket);
+  const { serviceType } = useSelector((state) => state.Ticket);
 
   const [idClient, setIdClient] = useState();
   const [methodPaymentSelect, setMethodPaymentSelect] = useState([]);
   const [payments, setPayments] = useState({ cash: 0, qr: 0, card: 0 });
   const [change, setChange] = useState(0);
+  const [nameServiceType, setNameServiceType] = useState("dine_in");
 
   const handleSelectClient = (event) => {
     const {
@@ -75,6 +74,13 @@ export default function PaymentForm({
     } = event;
     setIdClient(value);
     setValue("id_client", value);
+  };
+
+  const handleSelectServiceType = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setNameServiceType(value);
   };
 
   const handleSelectMethodPayment = (event) => {
@@ -120,7 +126,7 @@ export default function PaymentForm({
       items: data,
       change,
       amountPaid: total,
-      serviceType: "dine_in",
+      serviceType: nameServiceType,
     };
 
     if (
@@ -131,6 +137,7 @@ export default function PaymentForm({
       setPayments({ cash: 0, qr: 0, card: 0 });
       setChange(0);
       onSubmit(formData);
+      setNameServiceType("dine_in");
       handleClick();
     }
   };
@@ -156,28 +163,56 @@ export default function PaymentForm({
           style={{ paddingLeft: 10, paddingRight: 10 }}
         >
           <DialogContent dividers>
-            <FormControl sx={{ m: 1, width: "95%" }}>
-              <InputLabel id="demo-customized-select-label">Cliente</InputLabel>
-              <Select
-                fullWidth
-                labelId="demo-customized-select-label"
-                id="demo-customized-select"
-                value={idClient}
-                onChange={handleSelectClient}
-                input={<OutlinedInput label="Cliente" />}
-                MenuProps={MenuProps}
-              >
-                {clients.map((cl, idx) => (
-                  <MenuItem
-                    key={`${cl.name}-${idx}`}
-                    value={cl.id}
-                    //   style={getStyles(cl.name, personName, theme)}
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12, md: 7 }}>
+                <FormControl sx={{ m: 1, width: "100%" }}>
+                  <InputLabel id="demo-customized-select-label">
+                    Cliente
+                  </InputLabel>
+                  <Select
+                    fullWidth
+                    labelId="demo-customized-select-label"
+                    id="demo-customized-select"
+                    value={idClient}
+                    onChange={handleSelectClient}
+                    input={<OutlinedInput label="Cliente" />}
+                    MenuProps={MenuProps}
                   >
-                    {`${cl.name} ${cl.last_name}`}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                    {clients.map((cl, idx) => (
+                      <MenuItem key={`${cl.name}-${idx}`} value={cl.id}>
+                        {`${cl.name} ${cl.last_name}`}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid size={{ xs: 12, md: 5 }}>
+                <FormControl sx={{ m: 1, minWidth: "100%" }}>
+                  <InputLabel id="demo-customized-select-label">
+                    Tipo de servicio
+                  </InputLabel>
+                  <Select
+                    fullWidth
+                    labelId="demo-customized-select-label"
+                    id="demo-customized-select"
+                    value={nameServiceType}
+                    onChange={handleSelectServiceType}
+                    input={<OutlinedInput label="Tipo de servicio" />}
+                    MenuProps={MenuProps}
+                  >
+                    {serviceType.map((cl, idx) => (
+                      <MenuItem
+                        key={`${cl.type}-${idx}`}
+                        value={cl.id}
+                        //   style={getStyles(cl.name, personName, theme)}
+                      >
+                        {`${cl.type}`}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
             <Divider style={styles.divider} />
             <Box>
               <Box sx={{ display: "flex" }}>

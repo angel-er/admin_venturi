@@ -22,9 +22,7 @@ function ProductsContainer(params) {
   const [product, setProduct] = useState({});
   const [titleModal, setTitleModal] = useState("");
 
-  const { products, header, status, error } = useSelector(
-    (state) => state.Product
-  );
+  const { products, header, status } = useSelector((state) => state.Product);
 
   const handleClick = (id, action) => {
     setTitleModal("AGREGAR NUEVO PRODUCTO");

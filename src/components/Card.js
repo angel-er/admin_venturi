@@ -129,7 +129,7 @@ function CardCustomer(
                           </Typography>
                           <Tooltip title="Eliminar de la lista">
                             <IconButton
-                              onClick={() => handleRemoveList(value.id)}
+                              onClick={() => handleRemoveList(value)}
                               aria-label="delete"
                               size="large"
                             >
