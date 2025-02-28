@@ -3,22 +3,15 @@ import { formatDate, formatTime } from "../helpers/formatDate.js";
 import { numbersToLetters } from "#helpers/numbersToLetters.js";
 
 const generateTicket = async (output, data) => {
-  const totalPay = data?.data
-    .map((item) => +item.price * +item.quantity)
-    .reduce((sum, item) => sum + item, 0);
-  const totalCanceled =
-    +data.payments.cash + +data.payments.qr + +data.payments.card;
-  const change = totalCanceled - totalPay;
-  const ticketDetails = {
-    ...data,
-    date: formatDate(),
-    time: formatTime(),
-    totalCanceled,
+  const serviceType = {
+    dine_in: "Para la mesa",
+    takeaway: "Para llevar",
   };
+  console.log("PRINT TICKET: ", data);
 
   const tableBodyContent = () => {
     let acumdata = [];
-    data.data.forEach((item) => {
+    data.items.forEach((item) => {
       acumdata.push(
         [
           {
@@ -32,7 +25,7 @@ const generateTicket = async (output, data) => {
         ],
         [
           {
-            text: `${item.name} - ${item.description}`,
+            text: `${item.product.name_product} - ${item.product.description}`,
             style: "tProductsBody",
             colSpan: 3,
             // alignment: "center",
@@ -40,7 +33,7 @@ const generateTicket = async (output, data) => {
           {},
           {},
           {
-            text: +item.quantity * +item.price,
+            text: item.subtotal,
             style: "tProductsBody",
             alignment: "right",
           },
@@ -66,7 +59,11 @@ const generateTicket = async (output, data) => {
 
     //TIPO Y NUMERO DOCUMENTO
     { text: "TICKET ELECTRÓNICO", style: "header", margin: [0, 10, 0, 2.25] },
-    { text: "T001-000001", style: "header", margin: [0, 2.25, 0, 0] },
+    {
+      text: `THV-001-0000${data.id}`,
+      style: "header",
+      margin: [0, 2.25, 0, 0],
+    },
 
     //DATOS CEBECERA FACTURAR
     {
@@ -76,9 +73,9 @@ const generateTicket = async (output, data) => {
         body: [
           [
             { text: "FECHA:", style: "tHeaderLabel" },
-            { text: ticketDetails.date, style: "tHeaderValue" },
+            { text: formatDate(new Date(data.date)), style: "tHeaderValue" },
             { text: "HORA:", style: "tHeaderLabel" },
-            { text: ticketDetails.time, style: "tHeaderValue" },
+            { text: formatTime(new Date(data.date)), style: "tHeaderValue" },
           ],
           [
             { text: "PEDIDO:", style: "tHeaderLabel" },
@@ -95,7 +92,7 @@ const generateTicket = async (output, data) => {
           [
             { text: "CAJERO:", style: "tHeaderLabel" },
             {
-              text: `${ticketDetails?.cashier ?? "ANGEL"}`,
+              text: `${data?.user ?? "ANGEL"}`,
               style: "tHeaderValue",
               colSpan: 3,
             },
@@ -105,7 +102,17 @@ const generateTicket = async (output, data) => {
           [
             { text: "VENDEDOR:", style: "tHeaderLabel" },
             {
-              text: `${ticketDetails?.seller ?? "VENTURI"}`,
+              text: `${data?.user ?? "VENTURI"}`,
+              style: "tHeaderValue",
+              colSpan: 3,
+            },
+            {},
+            {},
+          ],
+          [
+            { text: "TIPO/SERVICIO:", style: "tHeaderLabel" },
+            {
+              text: serviceType[data.service_type].toUpperCase(),
               style: "tHeaderValue",
               colSpan: 3,
             },
@@ -172,22 +179,22 @@ const generateTicket = async (output, data) => {
         widths: ["25%", "35%", "15%", "25%"],
         body: [
           //TOTALES
-          [
-            { text: "SUBTOTAL: Bs.", style: "tTotals", colSpan: 2 },
-            {},
-            { text: totalPay, style: "tTotals", colSpan: 2 },
-            {},
-          ],
-          [
-            { text: "DESCUENTO: BS.", style: "tTotals", colSpan: 2 },
-            {},
-            { text: "00.00", style: "tTotals", colSpan: 2 },
-            {},
-          ],
+          // [
+          //   { text: "SUBTOTAL: Bs.", style: "tTotals", colSpan: 2 },
+          //   {},
+          //   { text: data.total_canceled, style: "tTotals", colSpan: 2 },
+          //   {},
+          // ],
+          // [
+          //   { text: "DESCUENTO: BS.", style: "tTotals", colSpan: 2 },
+          //   {},
+          //   { text: "00.00", style: "tTotals", colSpan: 2 },
+          //   {},
+          // ],
           [
             { text: "TOTAL: BS.", style: "tTotals", colSpan: 2 },
             {},
-            { text: totalPay, style: "tTotals", colSpan: 2 },
+            { text: data.total_amount, style: "tTotals", colSpan: 2 },
             {},
           ],
           //TOTAL IMPORTE EN LETRAS
@@ -205,7 +212,7 @@ const generateTicket = async (output, data) => {
           ],
           [
             {
-              text: numbersToLetters(totalPay),
+              text: numbersToLetters(data.total_amount),
               style: "tProductsBody",
               colSpan: 4,
             },
@@ -230,31 +237,31 @@ const generateTicket = async (output, data) => {
           [
             { text: "EFECTIVO: BS.", style: "tTotals", colSpan: 2 },
             {},
-            { text: ticketDetails.payments.cash, style: "tTotals", colSpan: 2 },
+            { text: data.payment_cash, style: "tTotals", colSpan: 2 },
             {},
           ],
           [
             { text: "QR: BS.", style: "tTotals", colSpan: 2 },
             {},
-            { text: ticketDetails.payments.qr, style: "tTotals", colSpan: 2 },
+            { text: data.payment_qr, style: "tTotals", colSpan: 2 },
             {},
           ],
           [
             { text: "TARJETA: BS.", style: "tTotals", colSpan: 2 },
             {},
-            { text: ticketDetails.payments.card, style: "tTotals", colSpan: 2 },
+            { text: data.payment_card, style: "tTotals", colSpan: 2 },
             {},
           ],
           [
             { text: "TOTAL CANCELADO: BS.", style: "tTotals", colSpan: 2 },
             {},
-            { text: totalCanceled, style: "tTotals", colSpan: 2 },
+            { text: data.total_canceled, style: "tTotals", colSpan: 2 },
             {},
           ],
           [
             { text: "CAMBIO: BS.", style: "tTotals", colSpan: 2 },
             {},
-            { text: Math.abs(change), style: "tTotals", colSpan: 2 },
+            { text: Math.abs(data.change), style: "tTotals", colSpan: 2 },
             {},
           ],
           //DATOS CLIENTE
@@ -273,7 +280,9 @@ const generateTicket = async (output, data) => {
           [
             { text: "NOMBRES: ", style: "tClientLabel" },
             {
-              text: "xxxxxxxxxxxxxxxx",
+              text:
+                `${data.client.name} ${data.client.last_name}` ??
+                "xxxxxxxxxxxx",
               style: "tClientValue",
               colSpan: 3,
             },
@@ -282,14 +291,18 @@ const generateTicket = async (output, data) => {
           ],
           [
             { text: "DOC.ID: ", style: "tClientLabel" },
-            { text: "0000000", style: "tClientValue", colSpan: 3 },
+            {
+              text: data.client.ci ?? "0000000",
+              style: "tClientValue",
+              colSpan: 3,
+            },
             {},
             {},
           ],
           [
             { text: "DIRECC.: ", style: "tClientLabel" },
             {
-              text: "xxxxxxxxxxxxxxxx",
+              text: data.client.address ?? "xxxxxxxxxxxxxxxx",
               style: "tClientValue",
               colSpan: 3,
             },

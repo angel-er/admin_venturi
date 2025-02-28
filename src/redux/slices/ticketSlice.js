@@ -11,6 +11,10 @@ const initState = {
     { id: 2, type: "QR" },
     { id: 3, type: "Tarjeta" },
   ],
+  serviceType: [
+    { id: "dine_in", type: "Para mesa" },
+    { id: "takeaway", type: "Para llevar" },
+  ],
   error: null,
   status: "uninitialized",
 };

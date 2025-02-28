@@ -4,6 +4,7 @@ import { Box, Divider, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid2";
 
+import PrintButton from "#utils/ButtonPrintPDF.js";
 import CustomizedDialogs from "#components/Modal.js";
 import { formatDate } from "#helpers/formatDate.js";
 import theme from "#config/theme.js";
@@ -36,6 +37,8 @@ export default function TicketDetail({ handleClick, open, title, data = {} }) {
   const cancelModal = () => {
     handleClick();
   };
+
+  const clickPrint = () => {};
 
   return (
     <CustomizedDialogs open={open} handleClick={handleClick} title={title}>
@@ -202,9 +205,7 @@ export default function TicketDetail({ handleClick, open, title, data = {} }) {
         <Button autoFocus onClick={cancelModal}>
           CERRAR
         </Button>
-        <Button type="submit" autoFocus variant="outlined">
-          IMPRIMIR
-        </Button>
+        <PrintButton clickPrint={clickPrint} data={data} />
       </DialogActions>
     </CustomizedDialogs>
   );
