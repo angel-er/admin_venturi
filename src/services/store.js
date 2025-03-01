@@ -29,11 +29,11 @@ export const createStore = createAsyncThunk(
     try {
       const resp = await apiUrl.post(`/api/store/`, parse);
       if (resp.status === 200) {
-        return { ...resp.data };
+        return { ...resp.data, status: "registered" };
       }
     } catch (error) {
       if (error.status === 404) {
-        return { status: 404 };
+        return { status: "exists" };
       }
     }
   }

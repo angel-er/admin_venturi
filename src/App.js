@@ -12,15 +12,15 @@ function App() {
   return (
     <Provider store={store}>
       <AppProvider>
-        <NavHeader />
-        <Box sx={styles.container}>
-          <BrowserRouter>
+        <BrowserRouter>
+          <NavHeader />
+          <Box sx={styles.container}>
             <SideNav />
             <Box component={"main"} sx={styles.mainSection}>
               <AppRoutes />
             </Box>
-          </BrowserRouter>
-        </Box>
+          </Box>
+        </BrowserRouter>
       </AppProvider>
     </Provider>
   );

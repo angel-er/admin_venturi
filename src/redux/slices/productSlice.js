@@ -30,10 +30,10 @@ const productSlice = createSlice({
         state.status = "ĺoading";
       })
       .addCase(createProduct.fulfilled, (state, action) => {
-        state.status = `${
-          action.payload.status === 404 ? "error" : "registered"
-        }`;
-        action?.payload && state.products.unshift(action.payload);
+        if (action.payload.status === "registered") {
+          state.products.unshift(action.payload);
+        }
+        state.status = action.payload.status;
       })
       .addCase(createProduct.rejected, (state, action) => {
         state.status = "failed";
@@ -43,12 +43,12 @@ const productSlice = createSlice({
         state.status = "ĺoading";
       })
       .addCase(updateProduct.fulfilled, (state, action) => {
-        console.log("ACTION EDIT PRODUCT: ", action);
-        state.status = `${action.payload.status === 404 ? "error" : "updated"}`;
-        action.payload &&
-          state.products.filter((c, idx) =>
+        if (action.payload.status === "updated") {
+          state.products = state.products.map((c, idx) =>
             c.id === action.payload.id ? action.payload : c
           );
+        }
+        state.status = action.payload.status;
       })
       .addCase(updateProduct.rejected, (state, action) => {
         state.status = "failed";
@@ -58,9 +58,12 @@ const productSlice = createSlice({
         state.status = "ĺoading";
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {
-        state.status = `${action.payload.status === 404 ? "error" : "deleted"}`;
-        action.payload &&
-          state.products.filter((c, idx) => c.id !== action.payload.id);
+        if (action.payload.status === "deleted") {
+          state.products = state.products.filter(
+            (c, idx) => c.id !== action.payload.id_product
+          );
+        }
+        state.status = action.payload.status;
       })
       .addCase(deleteProduct.rejected, (state, action) => {
         state.status = "failed";

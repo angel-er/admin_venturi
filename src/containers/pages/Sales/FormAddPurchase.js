@@ -1,10 +1,12 @@
 import Button from "@mui/material/Button";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
-import { useEffect } from "react";
-import { Box, TextField, Typography } from "@mui/material";
+import { Fragment, useEffect, useState } from "react";
+import { Box, Checkbox, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import CustomizedDialogs from "#components/Modal.js";
+import { useSelector } from "react-redux";
+import Grid from "@mui/material/Grid2";
 
 export default function FormAddPurchase({
   handleClick,
@@ -13,6 +15,9 @@ export default function FormAddPurchase({
   onSubmit,
   data,
 }) {
+  const { flavors } = useSelector((state) => state.Flavor);
+  const [checked, setChecked] = useState({});
+  const [flavorSelected, setFlavorSelected] = useState([]);
   const {
     register,
     handleSubmit,
@@ -26,24 +31,57 @@ export default function FormAddPurchase({
     setValue("description", data?.description);
     setValue("id", data?.id);
     setValue("price", data?.price_product);
-  }, [data, setValue]);
+  }, [data, setValue, flavorSelected]);
 
   const cancelModal = () => {
     // reset();
     handleClick();
   };
+  const handleCheckbox = (e) => {
+    const { target } = e;
+    setChecked({ ...checked, [target.name]: target.checked });
+    target.checked
+      ? setFlavorSelected(flavorSelected.concat([target.name]))
+      : setFlavorSelected(flavorSelected.filter((s) => s !== target.name));
+  };
 
   return (
     <CustomizedDialogs open={open} handleClick={handleClick} title={title}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit((data) => {
+          onSubmit({ ...data, flavors: flavorSelected });
+          setFlavorSelected([]);
+          setChecked({});
+        })}
+      >
         <DialogContent dividers>
-          <Box>
+          <Box sx={{ marginBottom: 3 }}>
             <Typography variant="h4">{data?.name_product}</Typography>
-          </Box>
-          <Box sx={{ mt: 3, mb: 3 }}>
-            <Typography variant="h6">Descripción: </Typography>
             <Typography variant="span">{data.description}</Typography>
           </Box>
+          {data?.name_product &&
+            data?.name_product.toUpperCase().includes("HELADO") && (
+              <Fragment>
+                <Typography variant="h6">Selecciona los sabores:</Typography>
+                <Grid container spacing={10}>
+                  {flavors.length > 0 &&
+                    flavors
+                      .filter((f) => f.available)
+                      .map((f) => (
+                        <Grid key={f.id} size={4}>
+                          <Box sx={{ display: "flex", alignItems: "center" }}>
+                            <Checkbox
+                              onChange={handleCheckbox}
+                              checked={checked[f.flavor]?.checked}
+                              name={f.flavor}
+                            />
+                            <Typography>{f.flavor}</Typography>
+                          </Box>
+                        </Grid>
+                      ))}
+                </Grid>
+              </Fragment>
+            )}
           <TextField
             type="number"
             label="Cantidad"

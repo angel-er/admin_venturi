@@ -14,10 +14,9 @@ const clientSlice = createSlice({
   initialState: initState,
   reducers: {
     getAllClients: (state, action) => {
-      return {
-        ...state,
-        clients: !action.payload ? [] : action.payload.reverse(),
-      };
+      if (action.payload.status === 200) {
+        state.clients = action.payload.data.reverse();
+      }
     },
   },
   extraReducers: (builder) => {
@@ -26,30 +25,34 @@ const clientSlice = createSlice({
         state.status = "ĺoading";
       })
       .addCase(createClient.fulfilled, (state, action) => {
-        state.status = `${
-          action.payload.status === 404 ? "error" : "registered"
-        }`;
-        action?.payload && state.clients.unshift(action.payload);
+        if (action.payload.status === "registered") {
+          state.clients.unshift(action.payload);
+        }
+        state.status = action.payload.status;
       })
       .addCase(createClient.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.message;
       })
       .addCase(updateClient.fulfilled, (state, action) => {
-        state.status = `${action.payload.status === 404 ? "error" : "updated"}`;
-        action?.payload &&
-          state.clients.filter((c, idx) =>
+        if (action.payload.status === "updated") {
+          state.clients = state.clients.map((c, idx) =>
             c.id === action.payload.id ? action.payload : c
           );
+        }
+        state.status = action.payload.status;
       })
       .addCase(updateClient.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.message;
       })
       .addCase(deleteClient.fulfilled, (state, action) => {
-        state.status = `${action.payload.status === 404 ? "error" : "deleted"}`;
-        action.payload &&
-          state.clients.filter((c, idx) => c.id !== action.payload.id);
+        if (action.payload.status === "deleted") {
+          state.clients = state.clients.filter(
+            (c, idx) => c.id !== action.payload.id_client
+          );
+        }
+        state.status = action.payload.status;
       })
       .addCase(deleteClient.rejected, (state, action) => {
         state.status = "failed";

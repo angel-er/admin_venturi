@@ -14,7 +14,7 @@ export const getListClients = async () => {
   try {
     const resp = await apiClient.get(`/api/client/`);
     if (resp.status === 200) {
-      return resp.data?.clients;
+      return { data: resp.data.clients, status: resp.status };
     }
   } catch (error) {}
 };
@@ -31,11 +31,11 @@ export const createClient = createAsyncThunk(
     try {
       const resp = await apiClient.post(`/api/client/`, parseData);
       if (resp.status === 200) {
-        return { ...resp.data };
+        return { ...resp.data, status: "registered" };
       }
     } catch (error) {
       if (error.status === 404) {
-        return { status: 404 };
+        return { status: "exists" };
       }
     }
   }
@@ -56,10 +56,12 @@ export const updateClient = createAsyncThunk(
         parseData
       );
       if (resp.status === 200) {
-        return { ...resp.data };
+        return { ...resp.data, status: "updated" };
       }
     } catch (error) {
-      return { status: 404 };
+      if (error.status === 404) {
+        return { status: "exists" };
+      }
     }
   }
 );
@@ -70,11 +72,11 @@ export const deleteClient = createAsyncThunk(
     try {
       const resp = await apiClient.delete(`/api/client/detail/${id}/`);
       if (resp.status === 200) {
-        return { ...resp.data };
+        return { ...resp.data, status: "deleted", id_client: id };
       }
     } catch (error) {
       if (error.status === 404) {
-        return { status: 404 };
+        return { status: "error" };
       }
     }
   }

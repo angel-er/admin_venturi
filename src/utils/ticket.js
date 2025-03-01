@@ -7,7 +7,6 @@ const generateTicket = async (output, data) => {
     dine_in: "Para la mesa",
     takeaway: "Para llevar",
   };
-  console.log("PRINT TICKET: ", data);
 
   const tableBodyContent = () => {
     let acumdata = [];
@@ -25,7 +24,7 @@ const generateTicket = async (output, data) => {
         ],
         [
           {
-            text: `${item.product.name_product} - ${item.product.description}`,
+            text: `${item.product.name_product}- (${item.flavor}) -${item.product.description}`,
             style: "tProductsBody",
             colSpan: 3,
             // alignment: "center",
@@ -168,7 +167,6 @@ const generateTicket = async (output, data) => {
           return "#f2f0f0";
         },
         paddingTop: function (i, node) {
-          console.log(i);
           return i % 2 === 0 ? 10 : 1;
         },
       },

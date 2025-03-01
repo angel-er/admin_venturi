@@ -46,6 +46,7 @@ function SalesContainer(params) {
   };
 
   const addToCartList = (product) => {
+    console.log(product);
     const sumPrice = +totalSum + +product.quantity * product.price;
     setCartList(
       cartList.concat([{ ...product, id_list: cartList.length + 1 }])

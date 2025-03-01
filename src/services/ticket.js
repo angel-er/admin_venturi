@@ -10,6 +10,7 @@ const parseData = (data) => {
       price: i.price,
       quantity: i.quantity,
       subtotal: +i.price * +i.quantity,
+      flavor: i.flavors.join(","),
     };
   });
 
@@ -55,7 +56,6 @@ export const createTicket = createAsyncThunk(
   "ticket/createTicket",
   async (data, thunkAPI) => {
     const parse = parseData(data);
-    console.log(parse);
     try {
       const resp = await apiUrl.post(`/api/ticket/`, parse);
       if (resp.status === 201) {
