@@ -31,6 +31,7 @@ class ClientsView(APIView):
                 return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             print("Error",str(e))
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class ClientDetailView(APIView):

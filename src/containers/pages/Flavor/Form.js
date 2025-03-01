@@ -24,9 +24,8 @@ export default function Modal({
   } = useForm({ defaultValues: {} });
 
   useEffect(() => {
-    setValue("name", data.name_product);
-    setValue("price", data.price_product);
-    setValue("description", data.description);
+    setValue("flavor", data.flavor);
+    setValue("available", data.available);
     setValue("id", data.id);
   }, [data, setValue]);
 
@@ -42,33 +41,13 @@ export default function Modal({
           {title !== "ELIMINAR" ? (
             <>
               <TextField
-                label="Nombre"
+                label="Sabor"
                 fullWidth
-                {...register("name", { required: "El nombre es necesario" })}
+                {...register("flavor", {
+                  required: "Este campo es obligatorio",
+                })}
                 error={!!errors.name}
                 helperText={errors.name?.message}
-                sx={{ mb: 2 }}
-              />
-              <TextField
-                label="Precio"
-                fullWidth
-                {...register("price", {
-                  required: "El precio es necesario",
-                })}
-                error={!!errors.price}
-                helperText={errors.price?.message}
-                sx={{ mb: 2 }}
-              />
-              <TextField
-                label="Descripción"
-                fullWidth
-                multiline
-                rows={6}
-                {...register("description", {
-                  required: "Este campo es necesario",
-                })}
-                error={!!errors.description}
-                helperText={errors.description?.message}
                 sx={{ mb: 2 }}
               />
             </>

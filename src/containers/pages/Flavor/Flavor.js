@@ -1,69 +1,77 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Divider, Typography } from "@mui/material";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { message } from "antd";
+import { Typography, Box, Divider } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
-import CustomizedDialogs from "./Form.js";
-import Table from "#containers/pages/Client/Table.js";
+import ListFlavors from "./Table";
 import theme from "#config/theme.js";
-import { createClient, updateClient, deleteClient } from "#services/client.js";
+import {
+  createFlavor,
+  updateFlavor,
+  //   deleteFlavor,
+} from "#services/flavor.js";
+import { message } from "antd";
+import CustomizedDialogs from "./Form.js";
 
-function ClientsContainer(params) {
-  console.log("clientsContainer");
+function FlavorContainer(params) {
+  const dispatch = useDispatch();
   let refMessage = useRef("");
   const [messageApi, contextHolder] = message.useMessage();
 
   const [open, setOpen] = useState(false);
-  const [client, setClient] = useState({});
+  const [flavor, setProduct] = useState({});
   const [titleModal, setTitleModal] = useState("");
 
-  const { clients, header, status } = useSelector((state) => state.Client);
-  const dispatch = useDispatch();
+  const { flavors, header, status } = useSelector((state) => state.Flavor);
 
-  const handleClick = () => {
-    setTitleModal("AGREGAR NUEVO CLIENTE");
-    setClient({});
+  const handleClick = (id, action) => {
+    setTitleModal("AGREGAR NUEVO SABOR");
+    setProduct({});
     setOpen(!open);
   };
   const handleClickEdit = (row) => {
-    setTitleModal("ACTUALIZAR/CAMBIAR DATOS");
-    setClient(row);
+    setTitleModal("CORREGIR SABOR");
+    setProduct(row);
     setOpen(!open);
+  };
+
+  const handleCheckbox = (e, row) => {
+    const { checked } = e.target;
+    dispatch(updateFlavor({ ...row, available: checked }));
   };
 
   const handleClickDelete = (row) => {
     setTitleModal("ELIMINAR");
-    setClient(row);
+    setProduct(row);
     setOpen(!open);
   };
 
   const handleSaveData = (data) => {
     if (!titleModal.search("AGREGAR")) {
-      dispatch(createClient(data));
+      dispatch(createFlavor(data));
     }
 
-    if (!titleModal.search("ACTUALIZAR")) {
-      dispatch(updateClient(data));
+    if (!titleModal.search("CORREGIR")) {
+      dispatch(updateFlavor(data));
     }
 
     if (!titleModal.search("ELIMINAR")) {
-      dispatch(deleteClient(data.id));
+      //   dispatch(deleteProduct(data.id));
     }
   };
 
   useEffect(() => {
-    // const data = getListClients();
-    // data.then((da) => dispatch(getAllClients(da)));
+    // const resp = getListProducts();
+    // resp.then((p) => dispatch(getAllProducts(p)));
 
     if (status === "registered") {
-      refMessage.current = `registrado`;
+      refMessage.current = `registrados`;
       messageApi.open({
         type: "success",
-        content: `Los datos fueron ${refMessage.current}`,
+        content: `Los datos fueron ${refMessage.current}.`,
         duration: 5,
       });
-      setClient({});
+      setProduct({});
       setOpen(false);
     }
 
@@ -71,7 +79,7 @@ function ClientsContainer(params) {
       refMessage.current = `error`;
       messageApi.open({
         type: "error",
-        content: `Hubo un ${refMessage.current}, el teléfono o mail ya estan registrados`,
+        content: `Hubo un ${refMessage.current}, el producto ya existe`,
       });
     }
 
@@ -82,7 +90,7 @@ function ClientsContainer(params) {
         content: `Los datos fueron ${refMessage.current}.`,
         duration: 5,
       });
-      setClient({});
+      setProduct({});
       setOpen(false);
     }
     if (status === "deleted") {
@@ -92,34 +100,37 @@ function ClientsContainer(params) {
         content: `Los datos fueron ${refMessage.current}.`,
         duration: 5,
       });
-      setClient({});
+      setProduct({});
       setOpen(false);
     }
-  }, [dispatch, status, messageApi]);
+  }, [dispatch, messageApi, status]);
 
   return (
-    <Box style={styles.container}>
+    <Box>
       {contextHolder}
       <Typography sx={styles.pageTitle} variant="h5">
-        LISTA DE CLIENTES
+        SABORES DE HELADOS
       </Typography>
       <Divider style={styles.divider} />
-      <Table
-        valueButton="Agregar Cliente"
-        iconButton={<PersonAddIcon />}
-        handleClick={handleClick}
-        handleClickEdit={handleClickEdit}
-        handleClickDelete={handleClickDelete}
-        columns={header}
-        rows={clients}
-      />
+      <Box>
+        <ListFlavors
+          rows={flavors}
+          columns={header}
+          valueButton="Agregar sabor"
+          iconButton={<AddIcon />}
+          handleClick={handleClick}
+          handleClickEdit={handleClickEdit}
+          handleClickDelete={handleClickDelete}
+          handleCheckbox={handleCheckbox}
+        />
+      </Box>
       <CustomizedDialogs
         open={open}
         handleClick={handleClick}
         onSubmit={handleSaveData}
         title={titleModal}
-        data={client}
-        messageDelete="Está seguro que desea eliminar los datos del cliente?"
+        data={flavor}
+        messageDelete="Está seguro que desea eliminarlo?"
       />
     </Box>
   );
@@ -131,15 +142,9 @@ const styles = {
   pageTitle: {
     mb: 5,
   },
-  buttonContainer: {
-    display: "flex",
-    justifyContent: "flex-end",
-    paddingBottom: 20,
-  },
-  container: {
-    // columns: "280px 3",
-    height: "100%",
+  columnContainer: {
+    columns: "280px 3",
+    maxWidth: 1400,
   },
 };
-
-export default ClientsContainer;
+export default FlavorContainer;

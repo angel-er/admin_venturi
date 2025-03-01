@@ -12,7 +12,7 @@ class TicketItemSerializer(serializers.ModelSerializer):
     )  # Solo escritura para la creación # Incluye los datos completos del producto
     class Meta:
         model = TicketItem
-        fields = ['id','product', 'product_id', 'quantity', 'price', 'subtotal', 'created',]
+        fields = ['id','product', 'product_id', 'flavor', 'quantity', 'price', 'subtotal', 'created',]
         read_only_fields = ['ticket']
         # extra_kwargs = {
         #     'ticket': {'write_only': True}  # Excluye 'ticket' de la validación

@@ -22,7 +22,7 @@ const createPdf = async (props, output = "print") => {
       const {
         pageSize = {
           width: 226.77,
-          height: 841.88,
+          height: 750.0,
         },
         pageMargins = [5.66, 5.66, 5.66, 5.66],
         info = {

@@ -6,6 +6,7 @@ import ProductsContainer from "#containers/pages/Products/Products.js";
 import SalesContainer from "#containers/pages/Sales/Sales.js";
 import InvoicesContainer from "#containers/pages/Invoices/Invoices.js";
 import StoreContainer from "#containers/pages/Store/Store.js";
+import FlavorContainer from "#containers/pages/Flavor/Flavor.js";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getListProducts } from "#services/product.js";
@@ -14,6 +15,8 @@ import { getListClients } from "#services/client.js";
 import { getAllClients } from "#redux/slices/clientSlice.js";
 import { getListTickets } from "#services/ticket.js";
 import { getAllTickets } from "#redux/slices/ticketSlice.js";
+import { getListFlavors } from "#services/flavor.js";
+import { getAllFlavors } from "#redux/slices/flavorSlice.js";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -29,6 +32,9 @@ function AppRoutes() {
 
     const tickets = getListTickets();
     tickets.then((t) => dispatch(getAllTickets(t)));
+
+    const flavors = getListFlavors();
+    flavors.then((f) => dispatch(getAllFlavors(f)));
   }, [dispatch]);
 
   return (
@@ -39,6 +45,7 @@ function AppRoutes() {
       <Route path="/store" element={<StoreContainer />} />
       <Route path="/invoices" element={<InvoicesContainer />} />
       <Route path="/sales" element={<SalesContainer />} />
+      <Route path="/flavors" element={<FlavorContainer />} />
     </Routes>
   );
 }

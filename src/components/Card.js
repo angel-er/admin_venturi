@@ -119,7 +119,14 @@ function CardCustomer(
                           <Typography variant="h7">
                             {value.quantity} Unid. X {value.price}
                           </Typography>
-                          <Typography>{value.name}</Typography>
+                          <Typography>
+                            {value.name}{" "}
+                            {!!value.flavors.length && (
+                              <Typography variant="h8">
+                                ({value.flavors.join(", ")})
+                              </Typography>
+                            )}
+                          </Typography>
                         </Box>
                         <Box
                           sx={{ display: "flex", alignItems: "center", gap: 5 }}
@@ -139,6 +146,7 @@ function CardCustomer(
                         </Box>
                       </Box>
                     </Box>
+
                     <Typography variant="h8">{value.description}</Typography>
                   </Box>
                   <Divider sx={{ mt: 1, mb: 1 }} />

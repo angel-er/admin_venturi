@@ -41,6 +41,7 @@ class Ticket(models.Model):
 # MODEL DETAIL.
 class TicketItem(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, related_name='items')
+    flavor = models.CharField(max_length=60, blank=True, null=True)
     product = models.ForeignKey(Product, on_delete = models.CASCADE)
     quantity= models.PositiveIntegerField(default=1)
     subtotal= models.DecimalField(max_digits=10, decimal_places=2)
@@ -63,3 +64,4 @@ class TicketItem(models.Model):
         self.product.save()
         super().save(*args, **kwargs)
         # self.update_ticket_total()
+

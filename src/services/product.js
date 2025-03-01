@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import apiUrl from "#services/config.js";
+import { ErrorSharp } from "@mui/icons-material";
 
 const parseData = (data) => {
   return {
@@ -27,11 +28,14 @@ export const createProduct = createAsyncThunk(
     try {
       const resp = await apiUrl.post(`/api/product/`, parse);
       if (resp.status === 200) {
-        return { ...resp.data };
+        return { ...resp.data, status: "registered" };
       }
     } catch (error) {
       if (error.status === 404) {
-        return { status: 404 };
+        return { status: "exists" };
+      }
+      if (error.status === 500) {
+        return { status: "error" };
       }
     }
   }
@@ -47,10 +51,12 @@ export const updateProduct = createAsyncThunk(
         parse
       );
       if (resp.status === 200) {
-        return { ...resp.data };
+        return { ...resp.data, status: "updated" };
       }
     } catch (error) {
-      return { status: 404 };
+      if (error.status === 404) {
+        return { status: "exists" };
+      }
     }
   }
 );
@@ -61,11 +67,11 @@ export const deleteProduct = createAsyncThunk(
     try {
       const resp = await apiUrl.delete(`/api/product/detail/${id}/`);
       if (resp.status === 200) {
-        return { ...resp.data };
+        return { ...resp.data, status: "deleted", id_product: id };
       }
     } catch (error) {
       if (error.status === 404) {
-        return { status: 404 };
+        return { status: "error" };
       }
     }
   }

@@ -10,11 +10,11 @@ class TicketAdmin(admin.ModelAdmin):
     list_filter = ('client', 'service_type', 'payment_type', 'date',)
 
 class TicketItemAdmin(admin.ModelAdmin):
-    list_display = ('id', 'ticket', 'product', 'quantity', 'price', 'subtotal', 'created',)
+    list_display = ('id', 'ticket', 'product', 'flavor', 'quantity', 'price', 'subtotal', 'created',)
     list_display_links = ('product', 'ticket',)
     list_per_page = 25
-    search_fields = ('product', 'ticket')
-    list_filter = ('product', 'ticket')
+    search_fields = ('product', 'ticket', 'flavor')
+    list_filter = ('product', 'ticket', 'flavor')
 
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(TicketItem, TicketItemAdmin)
