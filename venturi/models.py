@@ -2,21 +2,21 @@ from django.db import models
 from django.forms import model_to_dict # para trasnformar en type JSON un modelo
 
 # Model Client
-class Client(models.Model):
-    name = models.CharField(max_length=200, null=True, blank=False)
-    email = models.EmailField(max_length=200, null=True, blank=False)
-    telephone = models.PositiveIntegerField(null=True, blank=False)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+# class Client(models.Model):
+#     name = models.CharField(max_length=200, null=True, blank=False)
+#     email = models.EmailField(max_length=200, null=True, blank=False)
+#     telephone = models.PositiveIntegerField(null=True, blank=False)
+#     created = models.DateTimeField(auto_now_add=True)
+#     updated = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        verbose_name = ('client')
-        verbose_name_plural = ('clients')
+#     class Meta:
+#         verbose_name = ('client')
+#         verbose_name_plural = ('clients')
     
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
 
-# Model Product
+# # Model Product
 # class Product(models.Model):
 #     code = models.CharField(max_length=150, unique=True, null=True, blank=True, auto_created=True)
 #     title = models.CharField(max_length=150, unique=True, blank=False)

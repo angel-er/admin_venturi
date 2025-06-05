@@ -1,0 +1,47 @@
+export const columns = [
+  { field: "id", headerName: "ID", width: 90, sortable: false },
+  {
+    field: "created",
+    headerName: "Fecha de compra",
+    width: 150,
+    // editable: true,
+    sortable: true,
+  },
+  {
+    field: "name_store",
+    headerName: "Producto",
+    width: 150,
+    // editable: true,
+    sortable: true,
+  },
+  {
+    field: "unit_store",
+    headerName: "U/M",
+    width: 150,
+    // editable: true,
+    sortable: true,
+  },
+  {
+    field: "quantity_store",
+    headerName: "Cantidad",
+    width: 150,
+    // editable: true,
+  },
+  {
+    field: "price_store",
+    headerName: "Precio Bs.",
+    type: "number",
+    headerAlign: "center",
+    align: "center",
+    width: 150,
+    // editable: false,
+    sortable: true,
+  },
+  {
+    field: "subtotal",
+    headerName: "Subtotal",
+    width: 200,
+    // editable: false,
+    sortable: false,
+  },
+];
